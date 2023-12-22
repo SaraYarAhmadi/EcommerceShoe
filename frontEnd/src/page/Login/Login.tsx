@@ -70,7 +70,8 @@ export default function Login() {
                         </form>
                         <div className="flex justify-between mt-5 text-sm text-slate-500 dark:text-slate-400 tracking-tight">
                             <a href="#">ورود با ایمیل</a>
-                            <a href="#">حریم خصوصی</a>				</div>
+                            <a href="#">حریم خصوصی</a>
+                        </div>
                     </div>
 
                 </div>
