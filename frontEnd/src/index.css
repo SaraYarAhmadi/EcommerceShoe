@@ -1,0 +1,244 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@layer base {
+    @font-face {
+        font-family: "Dana";
+        src: local("Dana"), url("../public/fonts/Dana/woff2/DanaFaNum-Regular.woff2") format("woff2");
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: "Dana Medium";
+        src: local("Dana"), url("../public/fonts/Dana/woff2/DanaFaNum-Medium.woff2") format("woff2");
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: "Dana DemiBold";
+        src: local("Dana"), url("../public/fonts/Dana/woff2/DanaFaNum-DemiBold.woff2") format("woff2");
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: "Morabba Light";
+        src: local("Morabba"), url("../public/fonts/Morabba/woff2/Morabba-Light.woff2") format("woff2");
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: "Morabba Medium";
+        src: local("Morabba"), url("../public/fonts/Morabba/woff2/Morabba-Medium.woff2") format("woff2");
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: "Morabba Bold";
+        src: local("Morabba"), url("../public/fonts/Morabba/woff2/Morabba-Bold.woff2") format("woff2");
+        font-display: swap;
+    }
+}
+
+@layer base {
+    .ltr-text {
+        direction: ltr;
+        text-align: left;
+    }
+}
+
+@layer components {
+    .overlay {
+        @apply fixed invisible opacity-0 inset-0 w-full h-full bg-black/40 z-10 md:hidden;
+    }
+
+    .overlay--visible {
+        @apply visible opacity-100;
+    }
+
+    .section-title {
+        @apply relative text-xl md:text-3xl font-MorabbaMedium text-zinc-700 dark:text-white
+    }
+
+    .section-title::after {
+        width: 20px;
+        height: 5px;
+        border-radius: 25px;
+        background-color: #f2eb3c;
+        position: absolute;
+        right: -23px;
+        top: 61%;
+        content: '';
+
+    }
+
+    .section-subtitle {
+        @apply inline-block text-lg md:text-2xl font-MorabbaLight mt-0.5 md:mt-1.5 text-zinc-700 dark:text-white
+    }
+
+    .section-link {
+        @apply flex items-center md:gap-x-1 h-10 text-base md:text-xl tracking-tighter text-sky-400 hover:bg-sky-400/20 rounded-md transition-colors
+    }
+
+    .offer {
+        @apply relative text-gray-400
+    }
+
+    .offer::after {
+        content: "";
+        width: 100%;
+        height: 1px;
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        background-color: #eb8181;
+        top: -2px;
+    }
+
+    .category-banner-item1 {
+        background: linear-gradient(270deg, rgba(0, 0, 0, 0.6)33.87%, rgba(243, 244, 246, 0.1)100%), url('../public/img/shoe/category-banner2.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .category-banner-item2 {
+        background: linear-gradient(270deg, rgba(0, 0, 0, 0.6)33.87%, rgba(243, 244, 246, 0.1)100%), url('../public/img/shoe/shoe7.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .category-banner-item3 {
+        background: linear-gradient(270deg, rgba(0, 0, 0, 0.6)33.87%, rgba(243, 244, 246, 0.1)100%), url('../public/img/shoe/fallen125.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+
+    .mySwiperCustom>.swiper-wrapper {
+        /* transform:translateX(-36px) !important; */
+        transform: translate3d(0px, 0px, 0px);
+        transition-duration: 0ms;
+
+    }
+
+    .services {
+        @apply relative;
+    }
+
+    .services::after,
+    .services::before {
+        content: "";
+        display: block;
+
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        background-color: #d1d5db;
+    }
+
+    @media screen and (min-width:640px) {
+
+        .services::after,
+        .services::before {
+            content: none;
+        }
+    }
+
+    html.dark .services::after,
+    html.dark .services::before {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .services::before {
+        width: calc(100% - 2rem);
+        height: 1px;
+    }
+
+    .services::after {
+        width: 1px;
+        height: calc(100% - 3rem);
+    }
+
+    .widgetlis {
+        @apply relative
+    }
+
+    .widgetlis a::before {
+        width: 18px;
+        height: 18px;
+        border: 1px solid #eee;
+        border-radius: 0;
+        position: absolute;
+        background-color: #fff;
+        content: "\f00c";
+        top: 0;
+        right: 0;
+    }
+
+    .widgetLayeredNav ul li:hover::before {
+        display: inline-block;
+        font-weight: 300;
+        text-align: center;
+        line-height: 18px;
+        color: #666;
+        position: absolute;
+        inset: 0;
+        margin: 0;
+        content:'';
+
+    }
+
+    .breadcrumb__item {
+        @apply relative flex h-full items-center justify-center pr-10 pl-5 font-Dana
+    }
+
+    .breadcrumb__item::before {
+        content: "";
+        position: absolute;
+        left: 0px;
+        height: 67%;
+        width: 5px;
+        background-color: rgb(213, 208, 208);
+        bottom: -2px;
+        transform: rotate(-35deg);
+        transform-origin: bottom;
+    }
+
+    .breadcrumb__item::after {
+        content: "";
+        position: absolute;
+        left: 0px;
+        height: 67%;
+        width: 5px;
+        --tw-bg-opacity: 1;
+        background-color:rgb(213, 208, 208);
+        top: -2px;
+    transform: rotate(35deg);
+    transform-origin: top;
+        ;
+    }
+
+
+
+}
+
+
+/* @media screen and (min-width:1280px) {
+    html.dark.home{
+        background-image:none;
+        background: none;
+        opacity: 0;
+
+    }
+    html .home{
+        background: url('../public/img/other/1.jpg');
+        background-repeat: no-repeat; 
+        background-size: 100%;
+        /* height: 100px; */
+/* opacity: 0.5; */
+
+/* } */
+
+/* } */
