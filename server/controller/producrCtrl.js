@@ -2,6 +2,8 @@
 import productsModel from "../model/productsModel";
 import asyncHandler from "express-async-handler";
 import slugify from "slugify";
+import validateMongoDbId from "../utils/validateMongodbId";
+import fs from "fs";
 
 
 const createProduct = asyncHandler(async (req, res) => {
@@ -20,6 +22,7 @@ const createProduct = asyncHandler(async (req, res) => {
 
 const updateProduct = asyncHandler(async (req, res) => {
     const id = req.params.id; // استفاده از req.params.id برای دسترسی به پارامتر id در URL
+    validateMongoDbId(id)
     try {
         if (req.body.title) {
             req.body.slug = slugify(req.body.title);
@@ -36,7 +39,8 @@ const updateProduct = asyncHandler(async (req, res) => {
 
 const deleteProduct = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    console.log(id);
+    validateMongoDbId(id)
+
     try {
         const deleteProduct = await productsModel.findByIdAndDelete(id)
         res.json(deleteProduct)
@@ -47,6 +51,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
 const getaProduct = asyncHandler(async (req, res) => {
     const { id } = req.params;
+    validateMongoDbId(id)
     try {
         const findProduct = await productsModel.findById(id);
         res.json(findProduct);
@@ -105,5 +110,37 @@ const getAllProduct = asyncHandler(async (req, res) => {
     }
 });
 
+const uploadImages = async (req, res) => {
+    const { id } = req.params;
+    validateMongoDbId(id);
+    try {
+        const urls = [];
+        const files = req.files;
+        console.log("files", files);
 
-export { createProduct, getaProduct, getAllProduct, deleteProduct, updateProduct }
+        for (const file of files) {
+            const { path } = file;
+            const newPath = `/images/products/${file.filename}`;
+            // fs.renameSync(path, `./public${newPath}`); // جابجایی فایل به مسیر جدید
+            // console.log("newPath", newPath);
+            urls.push(newPath);
+        }
+
+        const findProduct = await productsModel.findByIdAndUpdate(
+            id,
+            {
+                images: urls.map((file) => {
+                    return file;
+                }),
+            },
+            {
+                new: true,
+            }
+        );
+
+        res.json(findProduct);
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+export { createProduct, getaProduct, getAllProduct, deleteProduct, updateProduct, uploadImages }
