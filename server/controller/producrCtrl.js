@@ -1,24 +1,24 @@
 
-import productsModel from "../model/productsModel";
+import Product from "../model/productsModel";
 import asyncHandler from "express-async-handler";
-import slugify from "slugify";
+import slugify from "persian-slugify";
 import validateMongoDbId from "../utils/validateMongodbId";
 import fs from "fs";
 
-
 const createProduct = asyncHandler(async (req, res) => {
     try {
-        if (req.body.title) {
-            req.body.slug = slugify(req.body.title);
-        }
-        const newProduct = await productsModel.create(req.body);
-        console.log("newProduct:", newProduct);
-        res.json(newProduct);
+      if (req.body.title) {
+        const slug = slugify(req.body.title);
+        req.body.slug = slug;
+      }
+      const newProduct = await Product.create(req.body);
+      console.log("newProduct:", newProduct);
+      res.json(newProduct);
     } catch (error) {
-        console.error("Error:", error);
-        res.status(500).json({ status: "error", message: "Internal server error" });
+      console.error("Error:", error);
+      res.status(500).json({ status: "error", message: "Internal server error" });
     }
-});
+  });
 
 const updateProduct = asyncHandler(async (req, res) => {
     const id = req.params.id; // استفاده از req.params.id برای دسترسی به پارامتر id در URL
@@ -28,7 +28,7 @@ const updateProduct = asyncHandler(async (req, res) => {
             req.body.slug = slugify(req.body.title);
         }
 
-        const updatedProduct = await productsModel.findByIdAndUpdate(id, req.body, { new: true });
+        const updatedProduct = await Product.findByIdAndUpdate(id, req.body, { new: true });
         res.json(updatedProduct);
     } catch (error) {
         console.error("Error:", error);
@@ -42,7 +42,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
     validateMongoDbId(id)
 
     try {
-        const deleteProduct = await productsModel.findByIdAndDelete(id)
+        const deleteProduct = await Product.findByIdAndDelete(id)
         res.json(deleteProduct)
     } catch (error) {
         throw new Error(error.massage);
@@ -53,7 +53,7 @@ const getaProduct = asyncHandler(async (req, res) => {
     const { id } = req.params;
     validateMongoDbId(id)
     try {
-        const findProduct = await productsModel.findById(id);
+        const findProduct = await Product.findById(id);
         res.json(findProduct);
     } catch (error) {
         throw new Error(error.massage);
@@ -71,7 +71,7 @@ const getAllProduct = asyncHandler(async (req, res) => {
 
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
-        let query = productsModel.find(JSON.parse(queryStr));
+        let query = Product.find(JSON.parse(queryStr));
         // Sorting
 
         if (req.query.sort) {
@@ -99,7 +99,7 @@ const getAllProduct = asyncHandler(async (req, res) => {
         const skip = (page - 1) * limit;
         query = query.skip(skip).limit(limit);
         if (req.query.page) {
-            const productCount = await productsModel.countDocuments();
+            const productCount = await Product.countDocuments();
             if (skip >= productCount) throw new Error("This Page does not exists");
         }
 
@@ -109,6 +109,7 @@ const getAllProduct = asyncHandler(async (req, res) => {
         throw new Error(error.message);
     }
 });
+
 
 const uploadImages = async (req, res) => {
     const { id } = req.params;
@@ -121,12 +122,10 @@ const uploadImages = async (req, res) => {
         for (const file of files) {
             const { path } = file;
             const newPath = `/images/products/${file.filename}`;
-            // fs.renameSync(path, `./public${newPath}`); // جابجایی فایل به مسیر جدید
-            // console.log("newPath", newPath);
             urls.push(newPath);
         }
 
-        const findProduct = await productsModel.findByIdAndUpdate(
+        const findProduct = await Product.findByIdAndUpdate(
             id,
             {
                 images: urls.map((file) => {

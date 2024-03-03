@@ -13,7 +13,6 @@ productRoute.put(
     uploadPhoto.array("images", 10),
     uploadImages
 );
-
 productRoute.delete("/:id", deleteProduct)
 productRoute.get("/", getAllProduct)
 export default productRoute

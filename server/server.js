@@ -1,26 +1,36 @@
 import express from "express";
 import cors from "cors";
-import productRouter from "./routers/productRouter";
-import userRouter from "./routers/userRouter";
-import mongoose from 'mongoose'
+import dbConnect from "./cofig/dbConnect"
+import userRouter from "./routers/authRoute";
+import productRoute from "./routers/productRoute";
+import blogRouter from "./routers/blogRoute";
+import categoryRoute from "./routers/categoryRoute";
+import 'dotenv/config';
+import { errorHandler, notFound } from "./middlewares/errorHandler";
+import cookieParser from "cookie-parser";
+import morgan from "morgan";
+import couponRouter from "./routers/couponRoute"
 
-mongoose.connect("mongodb+srv://sarayarahmadi69:Sara1@eccomersshoes.ogdz3dc.mongodb.net/Shoes");
 
-mongoose.connection.once("open", () => {
-    console.log("mongoose connections is successful");
-});
-
+const PORT = process.env.PORT || 4000;
+dbConnect();
 const app = express();
-app.use(cors({ origin: true, Credentials: true }));
+app.use(morgan("dev"))
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// hatman 
-app.use("/products", productRouter)
-app.use("/users", userRouter)
+app.use(cookieParser());
 
+app.use("/api/user", userRouter);
+app.use("/api/products", productRoute);
+app.use("/api/blog", blogRouter);
+app.use("/api/category", categoryRoute);
+app.use("/api/coupon", couponRouter);
 
+app.use(notFound);
+app.use(errorHandler);
 
-app.listen(4500, () => {
-    console.log("your app is listen on port 4500");
-})
+app.listen(PORT, () => {
+  console.log(`Your app is listening on port ${PORT}`);
+});
 

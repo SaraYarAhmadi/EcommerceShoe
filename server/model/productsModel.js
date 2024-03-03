@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const productShema = new mongoose.Schema(
+const productSchema = new mongoose.Schema(
     {
         title: {
             type: String,
@@ -30,34 +30,31 @@ const productShema = new mongoose.Schema(
             default: 0,
         },
         images: [],
-        ratings: {
-            star: Number,
-            postedby: { type: mongoose.Types.ObjectId, ref: "User" }
-        },
-        color: {
+        color: [],
+        category: {
             type: String,
             require: true,
         },
-        categoryID: {
-            type: String,
-            require: true,
-        },
-        size: {
-            type: String,
-            required: true,
-            // enum: ['38', '39', '40', '41', '42', '43', '44'],
-        },
+        size: [],
         gender: {
-            type: String,
+            type: Number,
             // enum: ['زنانه', 'مردانه'],
             required: true,
+        },
+        totalrating: {
+            type: String,
+            default: 0,
         },
     },
     { timestamps: true }
 );
 
-const productsModel = mongoose.model('products', productShema)
 
-export default productsModel;
+
+
+const Product = mongoose.model("Product", productSchema)
+
+export default Product;
+// export default productsModel;
 
 
