@@ -4,7 +4,7 @@ import asyncHandler from "express-async-handler";
 
 const authMiddleware = asyncHandler(async (req, res, next) => {
     let token;
-    if (req?.headers.authorization.startsWith("Bearer")) {
+    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
         token = req.headers.authorization.split(" ")[1];
         try {
             if (token) {
@@ -20,6 +20,8 @@ const authMiddleware = asyncHandler(async (req, res, next) => {
         throw new Error("There is no token attached to Header");
     }
 });
+
+
 
 const isAdmin = asyncHandler(async (req, res, next) => {
     const { email } = req.user;

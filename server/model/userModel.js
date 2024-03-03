@@ -4,11 +4,7 @@ import bcrypt from "bcrypt";
 // Declare the Schema of the Mongo model
 const userSchema = new mongoose.Schema(
   {
-    firstName: {
-      type: String,
-      required: true,
-    },
-    lastName: {
+    userName: {
       type: String,
       required: true,
     },
@@ -17,7 +13,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       // unique: true,
     },
-    mobile: {
+    phone: {
       type: String,
       required: true,
       // unique: true,
