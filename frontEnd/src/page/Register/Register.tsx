@@ -1,42 +1,68 @@
-import React, { ReactNode } from 'react'
-import { BsEnvelope } from 'react-icons/bs'
-import { CiUser } from 'react-icons/ci'
-import { GiSonicShoes } from 'react-icons/gi'
-import { MdOutlinePhone } from 'react-icons/md'
-import { IoLockClosedOutline } from "react-icons/io5"
-import Input from '../../component/Form/Input'
-import Button from '../../component/CustomButton/CustomButton'
-import { useFormik } from "formik"
-import registerSchema from "../../validaitons/registerForm"
+import React, { ReactNode, memo, useContext, useMemo, useState } from 'react';
+import { BsEnvelope } from 'react-icons/bs';
+import { CiUser } from 'react-icons/ci';
+import { GiSonicShoes } from 'react-icons/gi';
+import { MdOutlinePhone } from 'react-icons/md';
+import { IoLockClosedOutline } from 'react-icons/io5';
+import Button from '../../component/CustomButton/CustomButton';
+import { useFormik } from 'formik';
+import registerSchema from '../../validaitons/registerFormValidaitor';
+import UserContext from '../../context/userContext';
 
-export default function Register() {
-
+const Register = memo(() => {
+    const userContext = useContext(UserContext);
+    const [formSubmitted, setFormSubmitted] = useState(false);
 
     const form = useFormik({
-        initialValues: { name: "", email: "", password: "", phone: "" },
-        onSubmit: (values, { setSubmitting, resetForm }) => {
-            console.log(values);
+        initialValues: { userName: '', email: '', password: '', phone: '' },
+        onSubmit: (formValues, { setSubmitting, resetForm }) => {
+            const { userName, phone, email, password } = formValues;
+            const newUserInfos = {
+                userName,
+                phone,
+                email,
+                password,
+            };
+
+            fetch('http://localhost:7500/api/user/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newUserInfos),
+            })
+                .then((res) => res.json())
+                .then((result) => {
+                    console.log('resultttttttttttt', result);
+
+                    if (result?._id) userContext.login(result);
+                    else {
+                        alert(result?.message);
+                    }
+                });
 
             setTimeout(() => {
-                setSubmitting(false)
-                resetForm()
+                setSubmitting(false);
+                setFormSubmitted(true);
+                // resetForm();
             }, 3000);
-
         },
-
-        validationSchema: registerSchema
+        validationSchema: registerSchema,
     });
 
     const showErrorMessage = (form: any, name: string): ReactNode => {
-        const result = (form.errors[name] && form.touched[name]) ? <h2>{form.errors[name]}</h2> : <></>
+        const result = form.errors[name] && form.touched[name] ? <h2>{form.errors[name]}</h2> : <></>;
 
         return result;
-    }
+    };
+
+    const { handleSubmit, values, handleChange, handleBlur, isSubmitting } = form;
+    const { userName, phone, email, password } = values;
 
     return (
         <div className="flex items-center justify-center md:mt-36 md:mb-24">
             <div className="w-full xs:w-[500px] px-5 xs:p-0 border border-gray-300 shadow-light dark:shadow-none bg-white dark:bg-gray-800 rounded-2xl ">
-                {/* <!-- SabzLearn Logo --> */}
+                {/* <!--  Logo --> */}
                 <div className="flex items-center justify-center gap-x-2.5 mb-3 sm:mb-4 pt-7 border-b border-b-gray-200 dark:border-b-gray-700">
                     <div className='flex items-center text-sky-500 text-8xl shrink-0'>
                         <GiSonicShoes />
@@ -47,23 +73,23 @@ export default function Register() {
                     {/* <!-- Step 1 - Student Data Inputs --> */}
                     <div className="user-data">
                         <div className="text-center mb-7 sm:mb-9">
-                            <h2 className="font-morabbaMedium text-zinc-700 dark:text-white text-3xl mb-2 sm:mb-5">عضویت</h2>
+                            <h2 className="font-morabbaMedium text-zinc-700 dark:text-white text-3xl mb-2 sm:mb-5"> عضویت </h2>
                             <span className="help-alert font-danaLight text-lg text-slate-500 dark:text-gray-500">
                                 قبلا ثبت نام کرده‌اید؟
-                                <a href="#" className="text-sky-400 hover:text-sky-500 transition-colors">وارد شوید</a>
+                                <a href="#" className="text-sky-400 hover:text-sky-500 transition-colors"> وارد شوید </a>
                             </span>
                         </div>
-                        <form className="rounded-2xl" onSubmit={form.handleSubmit}>
+                        <form className="rounded-2xl" onSubmit={handleSubmit}>
                             <div className="space-y-2.5 sm:space-y-3.5 w-full">
                                 <div className="relative overflow-hidden">
                                     <input
                                         type="text"
-                                        name='name'
+                                        name='userName'
                                         placeholder="نام کاربری"
                                         className="w-full text-right py-3 pl-9 sm:pl-12 rounded-xl"
-                                        value={form.values.name}
-                                        onChange={form.handleChange}
-                                        onBlur={form.handleBlur}
+                                        value={userName}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
                                     />
 
                                     <span className='absolute left-3 sm:left-4 sm:top-3 sm:text-2xl'>
@@ -79,9 +105,9 @@ export default function Register() {
                                         name='phone'
                                         className="w-full text-right py-3 pl-9 sm:pl-12 rounded-xl"
                                         placeholder="شماره موبایل"
-                                        value={form.values.phone}
-                                        onChange={form.handleChange}
-                                        onBlur={form.handleBlur} />
+                                        value={phone}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur} />
 
                                     <span className="absolute sm:text-2xl left-3 sm:left-4 sm:top-4">
                                         <MdOutlinePhone />
@@ -95,9 +121,9 @@ export default function Register() {
                                         name="email"
                                         className="w-full text-right py-3 pl-9 sm:pl-12 rounded-xl"
                                         placeholder="آدرس ایمیل"
-                                        value={form.values.email}
-                                        onChange={form.handleChange}
-                                        onBlur={form.handleBlur}
+                                        value={email}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
                                     />
                                     <span className="absolute sm:text-2xl left-3 sm:left-4 sm:top-4">
                                         <BsEnvelope />
@@ -111,9 +137,9 @@ export default function Register() {
                                         name="password"
                                         className="w-full text-right py-3 pl-9 sm:pl-12 rounded-xl"
                                         placeholder="رمز عبور"
-                                        value={form.values.password}
-                                        onChange={form.handleChange}
-                                        onBlur={form.handleBlur}
+                                        value={password}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
                                     />
                                     <span className="absolute sm:text-2xl left-3 sm:left-4 sm:top-4">
                                         <IoLockClosedOutline />
@@ -125,8 +151,8 @@ export default function Register() {
                             </div>
 
                             <Button type="submit"
-                                className={`${form.isSubmitting ? " bg-green-400" : "bg-green-300"} user-data__submit button-md h-12 sm:button-lg bg-green-400 tracking-tighter hover:bg-green-500 rounded-xl text-white text-xl mt-2.5 sm:mt-4 w-full`}
-                                disabled={form.isSubmitting}>
+                                className={`${isSubmitting ? "bg-red-500" : "bg-green-400"} user-data__submit button-md h-12 sm:button-lg bg-green-400 tracking-tighter hover:bg-green-500 rounded-xl text-white text-xl mt-2.5 sm:mt-4 w-full`}
+                                disabled={isSubmitting}>
                                 ثبت نام
                             </Button>
                         </form>
@@ -135,4 +161,6 @@ export default function Register() {
             </div>
         </div>
     )
-}
+})
+
+export default Register

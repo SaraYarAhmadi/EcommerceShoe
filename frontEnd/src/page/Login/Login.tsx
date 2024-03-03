@@ -1,101 +1,88 @@
-import { GiSonicShoes } from 'react-icons/gi'
-import { MdOutlinePhone } from 'react-icons/md'
-import Button from '../../component/CustomButton/CustomButton'
-import { useFormik } from 'formik'
-import loginSchema from '../../validaitons/loginFormValidaitor'
-import react, { useEffect, ReactNode } from 'react'
-import { CiUser } from 'react-icons/ci'
-import { IoLockClosedOutline } from 'react-icons/io5'
-import { useContext } from 'react'
-import UserContext from '../../context/userContext'
-import { useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+import react, { ReactNode, memo, useState } from 'react';
+import { GiSonicShoes } from 'react-icons/gi';
+import Button from '../../component/CustomButton/CustomButton';
+import { useFormik } from 'formik';
+import loginSchema from '../../validaitons/loginFormValidaitor';
+import { CiUser } from 'react-icons/ci';
+import { IoLockClosedOutline } from 'react-icons/io5';
+import { useContext } from 'react';
+import UserContext from '../../context/userContext';
+import { json, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
-
-export default function Login() {
+const Login = memo(() => {
     const userContext = useContext(UserContext)
-    const MySwal = withReactContent(Swal)
-    // let navigate = useNavigate();
-
-    // useEffect(() => {
-    //     navigate('/')
-    // }, [])
-
     const navigate = useNavigate()
-    const form = useFormik({
-        initialValues: { userName: "", password: "" },
-        onSubmit: (formValues, { setSubmitting, resetForm }) => {
-            const { userName, password } = formValues;
+    const [formSubmitted, setFormSubmitted] = useState(false);
 
-            console.log(values);
+    const swal = withReactContent(Swal)
+
+
+
+    const form = useFormik({
+        initialValues: { email: "", password: "" },
+        onSubmit: async (formValues, { setSubmitting, resetForm }) => {
+            const { email, password } = formValues;
+
             const userData = {
-                identifier: userName,
+                email,
                 password,
             };
 
-            fetch('http://localhost:4500/users/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userData)
-            }).then((res) => {
-                console.log(res);
-                if (!res.ok) {
-                    return res.text().then((text) => {
-                        throw new Error(text)
-                    })
-                } else {
-                    return res.json()
+            try {
+                const response = await fetch("http://localhost:7500/api/user/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(userData),
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText);
                 }
 
-            })
-                .then(result => {
-                    Swal.fire({
-                        title: "با موفقیت لاگین شدید",
-                        icon: "success",
-                        confirmButtonText: "ورود به پنل",
-                        showCloseButton: true
-                    }).then(value => {
-                        navigate("/")
-                    })
-                    userContext.login(result)
-
+                const result = await response.json();
+                console.log(result);
+                userContext.login(result);
+                swal.fire({
+                    title: "لاگین با موفقیت انجام شد",
+                    icon: "success",
+                    confirmButtonText: "ورود به پنل کاربری",
+                    timer: 3000,
+                    timerProgressBar: true,
+                }).then((value) => {
+                    navigate("/")
                 })
-                .catch(err => {
-                    console.log(err);
-                    Swal.fire({
-                        title: "کاربری با این نام وجود ندارید",
-                        icon: "error",
-                        confirmButtonText: "تلاش دوباره",
-                        showCloseButton: true
-                    });
+            } catch (err: any) {
+                console.log(err);
 
+                swal.fire({
+                    title: "لاگین با موفقیت انجام نشد",
+                    text: "ایمیل و پسورد را به درستی وارد نمایید",
+                    icon: "error",
+                    confirmButtonText: "تلاش دوباره",
                 })
-
-
-
-
-            console.log(userData);
+            }
 
             setTimeout(() => {
-                setSubmitting(false)
-                resetForm()
+                setSubmitting(false);
+                // resetForm()
             }, 3000);
-
         },
-
-        // validationSchema: loginSchema
     });
 
+
     const showErrorMessage = (form: any, name: string): ReactNode => {
-        const result = (form.errors[name] && form.touched[name]) ? <h2>{form.errors[name]}</h2> : <></>
+        const result = (form.errors[name] && form.touched[name]) ? <p>{form.errors[name]}</p> : <></>;
 
         return result;
     }
+
     const { handleSubmit, values, handleChange, handleBlur, isSubmitting } = form;
-    const { userName, password } = values;
+    const { email, password } = values;
 
 
 
@@ -126,10 +113,10 @@ export default function Login() {
                                 <div className="relative overflow-hidden">
                                     <input
                                         type="text"
-                                        name='userName'
-                                        placeholder="نام کاربری"
+                                        name='email'
+                                        placeholder="ایمیل خود را وارد کنید"
                                         className="w-full text-right py-3 pl-9 sm:pl-12 rounded-xl"
-                                        value={userName}
+                                        value={email}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     />
@@ -159,8 +146,8 @@ export default function Login() {
 
                             </div>
                             <Button type="submit"
-                                className={`${form.isSubmitting ? "bg-red-500" : "bg-green-400"} user-data__submit button-md h-12 sm:button-lg bg-green-400 tracking-tighter hover:bg-green-500 rounded-xl text-white text-xl mt-2.5 sm:mt-4 w-full`}
-                            // disabled={form.isSubmitting}
+                                className={`${isSubmitting ? "bg-red-500" : "bg-green-400"} user-data__submit button-md h-12 sm:button-lg bg-green-400 tracking-tighter hover:bg-green-500 rounded-xl text-white text-xl mt-2.5 sm:mt-4 w-full`}
+                                disabled={isSubmitting}
                             >
                                 ورود
                             </Button>
@@ -175,4 +162,6 @@ export default function Login() {
             </div>
         </div>
     )
-}
+})
+
+export default Login;
