@@ -194,8 +194,6 @@ const saveAddress = asyncHandler(async (req, res, next) => {
 });
 
 
-
-
 const userCart = asyncHandler(async (req, res) => {
   const { cart } = req.body;
   const { _id } = req.user;
@@ -203,35 +201,48 @@ const userCart = asyncHandler(async (req, res) => {
   try {
     let products = [];
     const user = await userModel.findById(_id);
-    // check if user already have product in cart
-    const alreadyExistCart = await cartModel.findOne({ orderby: user._id });
-    if (alreadyExistCart) {
-      await cartModel.findOneAndDelete({ _id: alreadyExistCart._id });
+    let existingCart = await cartModel.findOne({ orderby: user._id });
+
+    if (existingCart) {
+      // اگر سبد خرید قبلی وجود داشت، محصولات جدید را به آن اضافه کنید
+      products = existingCart.products;
     }
+
     for (let i = 0; i < cart.length; i++) {
       let object = {};
       object.product = cart[i]._id;
       object.count = cart[i].count;
       object.color = cart[i].color;
+      object.size = cart[i].size;
       let getPrice = await Product.findById(cart[i]._id).select("price").exec();
       object.price = getPrice.price;
       products.push(object);
     }
+
     let cartTotal = 0;
     for (let i = 0; i < products.length; i++) {
       cartTotal = cartTotal + products[i].price * products[i].count;
     }
-    let newCart = await new cartModel({
-      products,
-      cartTotal,
-      orderby: user._id,
-    }).save();
-    res.json(newCart);
+
+    if (existingCart) {
+      // اگر سبد خرید قبلی وجود داشت، آن را به روزرسانی کنید
+      existingCart.products = products;
+      existingCart.cartTotal = cartTotal;
+      await existingCart.save();
+      res.json(existingCart);
+    } else {
+      // در غیر این صورت، سبد خرید جدید ایجاد کنید و محصولات را اضافه کنید
+      let newCart = await new cartModel({
+        products,
+        cartTotal,
+        orderby: user._id,
+      }).save();
+      res.json(newCart);
+    }
   } catch (error) {
     throw new Error(error);
   }
 });
-
 
 
 const getUserCart = asyncHandler(async (req, res) => {

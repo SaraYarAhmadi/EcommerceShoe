@@ -9,8 +9,8 @@ import 'dotenv/config';
 import { errorHandler, notFound } from "./middlewares/errorHandler";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
-import couponRouter from "./routers/couponRoute"
-
+import couponRouter from "./routers/couponRoute";
+import sizeRoute from "./routers/sizeRoute";
 
 const PORT = process.env.PORT || 4000;
 dbConnect();
@@ -26,6 +26,7 @@ app.use("/api/products", productRoute);
 app.use("/api/blog", blogRouter);
 app.use("/api/category", categoryRoute);
 app.use("/api/coupon", couponRouter);
+app.use("/api/size", sizeRoute);
 
 app.use(notFound);
 app.use(errorHandler);

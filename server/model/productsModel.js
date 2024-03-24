@@ -38,7 +38,6 @@ const productSchema = new mongoose.Schema(
         size: [],
         gender: {
             type: Number,
-            // enum: ['زنانه', 'مردانه'],
             required: true,
         },
         totalrating: {

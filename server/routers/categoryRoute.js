@@ -1,6 +1,6 @@
 import express from "express";
 import {createCategory,updateCategory,deleteCategory,getCategory,getAllCategory} from "../controller/categoryCtrl";
-import{authMiddleware,isAdmin} from "../middlewares/authMiddleware"
+import{authMiddleware,isAdmin} from "../middlewares/authMiddleware";
 const categoryRoute= express.Router();
 
 

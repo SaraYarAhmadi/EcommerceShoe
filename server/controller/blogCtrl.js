@@ -68,24 +68,20 @@ const deleteBlog = asyncHandler(async (req, res) => {
 });
 
 
-
 const uploadImages = async (req, res) => {
   const { id } = req.params;
   validateMongoDbId(id);
   try {
     const urls = [];
     const files = req.files;
-    console.log("files", files);
 
     for (const file of files) {
       const { path } = file;
-      const newPath = `/images/blogs/${file.filename}`;
-      // fs.renameSync(path, `./public${newPath}`); // جابجایی فایل به مسیر جدید
-      // console.log("newPath", newPath);
+      const newPath = `/uploads/images/blogs/${file.filename}`;
       urls.push(newPath);
     }
 
-    const findBlog = await blogModel.findByIdAndUpdate(
+    const findBlogs = await blogModel.findByIdAndUpdate(
       id,
       {
         images: urls.map((file) => {
@@ -97,7 +93,7 @@ const uploadImages = async (req, res) => {
       }
     );
 
-    res.json(findBlog);
+    res.json(findBlogs);
   } catch (error) {
     throw new Error(error);
   }
