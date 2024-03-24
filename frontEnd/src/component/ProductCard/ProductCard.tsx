@@ -1,42 +1,106 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CiStar } from 'react-icons/ci'
 import { HiOutlineShoppingCart } from 'react-icons/hi'
+import { ProductViewModel } from '../../page/Category/Category'
+import { ProductContextViewModel } from '../../context/productContex';
+import { GiShoebillStork } from 'react-icons/gi';
+import { Link } from 'react-router-dom';
 
-export default function ProductCard() {
+
+export default function ProductCard({
+    _id,
+    title,
+    description,
+    slug,
+    price,
+    quantity,
+    sold,
+    images,
+    color,
+    category,
+    size,
+    gender,
+    totalrating
+}: ProductContextViewModel) {
+
+    // console.log(images);
+
+    // size.map(size => (
+
+    //     <span className='prd-size-item'>{size}</span>
+    // ))
+
     return (
-        <div className='p-2 md:p-5 bg-white dark:bg-zinc-700 shadow-xl rounded-2xl border-2 border-gray-200 dark:border-gray-700'>
-        <div className='relative mb-2 md:mb-5 rounded-t-lg overflow-hidden'>
-            <img src="/img/shoe/gallery/rasmi1.jpg" alt="css" className='w-32 mx-auto md:w-auto' />
-            <span className='absolute top-1.5 right-1.5 block h-5 md:w-10 md:h-[30px] text-xs/[24px] md:text-base/[34px] font-DanaDemiBold bg-sky-300 text-white rounded-full'>12%</span>
-        </div>
-        <h5 className="font-danaMedium max-h-12 line-clamp-2 text-zinc-700 dark:text-white mb-2.5 min-h-[40px] md:min-h-[56px]">ونس چرم طوسی مردانه mrc118-01</h5>
-        <div className='flex items-center justify-center gap-x-2 md:gap-x-2.5 mt-1.5 md:mt-2.5 pb-3 border-b border-b-gray-300 dark:border-b-gray-700'>
-            <div className='text-sky-500 dark:text-sky-400 pr-1'>
-                <span className='font-DanaDemiBold text-base lg:text-xl '>
-                    154000
-                </span>
-                <span className='text-xs md:text-sm tracking-tighter'>
-                    تومان
-                </span>
+        <div className='group p-2 md:p-5 bg-white dark:bg-zinc-700 shadow-xl rounded-2xl border-2 border-gray-200 dark:border-gray-700'>
+            <div className='relative w-100 h-[340px] mb-2 md:mb-5 rounded-t-lg overflow-hidden'>
+                {/* <img src="/img/shoe/gallery/rasmi1.jpg" alt="css" className='w-32 mx-auto md:w-auto' /> */}
+                <img src={images[0]} alt="css" className='w-100 h-full mx-auto md:w-auto' />
+                {size.length > 1 &&
+                    <div className='absolute inset-0 bottom-0 w-full h-full hidden md:flex text-center items-center justify-center invisible opacity-0 group-hover:visible group-hover:opacity-100 bg-gradient-to-r from-orange-200/80 to-orange-300/80 transition-all delay-75 '>
+                        <div className='prd-size-list grid items-center justify-center gap-y-2 text-gray-800 text-xs lg:text-xl transition-all duration-300 ease-in-out'>
+                            {size.map(item => (
+                                <span className='prd-size-item'>{item}</span>
+                            ))}
+                            <strong className='prd-size-item text-sm'> سایز </strong>
+                        </div>
+                    </div>
+                }
             </div>
-            <div className='offer'>
-                <span className='text-xs lg:text-xl'>144000</span>
-                <span className='hidden md:inline text-sm tracking-tighter'>تومان</span>
-    
+            <h5 className="font-danaMedium max-h-12 line-clamp-2 text-zinc-700 dark:text-white mb-2.5 min-h-[40px] md:min-h-[56px]"> {title} </h5>
+            <div className='flex items-center justify-center gap-x-2 md:gap-x-2.5 mt-1.5 md:mt-2.5 pb-3 border-b border-b-gray-300 dark:border-b-gray-700'>
+                <div className='text-sky-500 dark:text-sky-400 pr-1'>
+                    <span className='font-DanaDemiBold text-base lg:text-xl '>
+                        {price}
+                    </span>
+                    <span className='text-xs md:text-sm tracking-tighter'>
+                        تومان
+                    </span>
+                </div>
+            </div>
+            <div className='flex-layout mt-2.5'>
+                <Link to={`/Product-info/${_id}`} className='flex items-center gapx2 md:gap-x-3' >
+                    <span className='flex items-center justify-center w-[26px] md:w-9 md:h-9 bg-gray-100 hover:bg-sky-600 dark:bg-zinc-800 dark:hover:bg-slate-500 text-gray-400 hover:text-white rounded-full text-xl md:text-2xl'><HiOutlineShoppingCart /></span>
+                </Link>
+
+                <span className=' md:h-6 text-base md:text-xl flex items-center justify-center text-yellow-400'>
+                    <CiStar />
+                    <CiStar />
+                    <CiStar />
+                    <CiStar />
+                    <CiStar />
+                </span>
+                <Link to={`/Product-info/${_id}`} className="flex items-center justify-center w-[120px] px-2 h-10 bg-orange-300 hover:bg-green-300 rounded-xl text-white text-xs md:text-sm">
+                    <span className="tracking-tighter"> جزئیات محصول </span>
+                </Link>
             </div>
         </div>
-        <div className='flex items-center justify-between mt-2.5'>
-            <a href="#" className='flex items-center gapx2 md:gap-x-3' >
-                <span className='flex items-center justify-center w-[26px] md:w-9 md:h-9 bg-gray-100 hover:bg-sky-600 dark:bg-zinc-800 dark:hover:bg-slate-500 text-gray-400 hover:text-white rounded-full'><HiOutlineShoppingCart /></span>
-            </a>
-            <span className=' md:h-6 text-base md:text-2xl flex items-center justify-center text-yellow-400'>
-                <CiStar />
-                <CiStar />
-                <CiStar />
-                <CiStar />
-                <CiStar />
-            </span>
-        </div>
-    </div>
     )
 }
+
+
+{/* <div className='blog-item group'>
+    <div className='relative w-[400px] h-[120px] sm:h-auto sm:w-auto sm:mb-4 rounded-2xl rondede-bl-4xl overflow-hidden'>
+        <img src={blog.images[0]} alt="blog" className='h-full w-full sm:h-auto object-cover' />
+        <div className='absolute inset-0 w-full h-full hidden md:flex items-center justify-center invisible opacity-0 group-hover:visible group-hover:opacity-100 bg-gradient-to-r from-orange-200/80 to-orange-300/80 transition-all delay-75'>
+            <div className='text-amber-900 text-6xl lg:text-9xl '>
+                <GiShoebillStork />
+            </div>
+        </div>
+    </div>
+    <div className='flex items-center justify-center w-full flex-col sm:flex-row pb-5 text-center '>
+        <a href="#" className='font-DanaDemiBold md:font-Dana text-sm md:text-xl mt-2.5 sm:mt-5 line-clamp-2 text-sky-700 dark:text-white'> {blog.title}</a>
+
+        <div className='flex items-center justify-center w-full sm:hidden border-t border-t-gray-100 dark:border-t-white/10 pt-[28px] pb-1.5'>
+            <a href="#" className='flex items-center gap-x-1 ml-1.5 font-DanaMedium text-xs h-5 rounded-md pr-2.5 bg-orange-200/20 text-orange-300'>مطالعه بیشتر...</a>
+        </div>
+    </div>
+</div> */}
+
+{/* <div className="prd_term_list">
+    <span>40</span>
+    <span>41</span>
+    <span>42</span>
+    <span>43</span>
+    <span>44</span>
+    <strong>سایز</strong>
+</div> */}
