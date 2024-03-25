@@ -50,6 +50,10 @@
 }
 
 @layer components {
+    .flex-layout {
+        @apply flex items-center justify-between
+    }
+
     .overlay {
         @apply fixed invisible opacity-0 inset-0 w-full h-full bg-black/40 z-10 md:hidden;
     }
@@ -80,6 +84,18 @@
 
     .section-link {
         @apply flex items-center md:gap-x-1 h-10 text-base md:text-xl tracking-tighter text-sky-400 hover:bg-sky-400/20 rounded-md transition-colors
+    }
+
+    .section-link-category-box {
+        @apply flex-layout text-base font-DanaMedium tracking-tighter
+    }
+
+    .blog-item {
+        @apply flex gap-x-2.5 sm:block p-2.5 md:pb-2 bg-white dark:bg-zinc-700 shadow-2xl rounded-2xl
+    }
+
+    .blog-icon-holder {
+        @apply absolute inset-0 w-full h-full hidden md:flex items-center justify-center invisible opacity-0 group-hover:visible group-hover:opacity-100 bg-gradient-to-r from-orange-200/80 to-orange-300/80 transition-all delay-75
     }
 
     .offer {
@@ -114,6 +130,7 @@
         background-repeat: no-repeat;
         background-size: cover;
     }
+
 
 
     .mySwiperCustom>.swiper-wrapper {
@@ -186,7 +203,7 @@
         position: absolute;
         inset: 0;
         margin: 0;
-        content:'';
+        content: '';
 
     }
 
@@ -213,32 +230,27 @@
         height: 67%;
         width: 5px;
         --tw-bg-opacity: 1;
-        background-color:rgb(213, 208, 208);
+        background-color: rgb(213, 208, 208);
         top: -2px;
-    transform: rotate(35deg);
-    transform-origin: top;
+        transform: rotate(35deg);
+        transform-origin: top;
         ;
     }
 
+    .home-page-category-box {
+        @apply overflow-auto flex flex-col justify-between bg-white border-2 border-solid box-border rounded-xl w-full p-8 dark:bg-zinc-800
+    }
 
+    .prd-size-list {
+        @apply grid items-center justify-center gap-y-2 text-gray-800 text-xs lg:text-xl
+    }
 
-}
+    .prd-size-list:hover .prd-size-item {
+        @apply text-gray-800 text-xs lg:text-xl scale-100 translate-y-6 delay-75 transition-all duration-700 ease-in-out
+    }
 
-
-/* @media screen and (min-width:1280px) {
-    html.dark.home{
-        background-image:none;
-        background: none;
-        opacity: 0;
+    .prd-size-item {
+        @apply flex text-center justify-center items-center text-white bg-zinc-600 border-2 border-gray-500 mx-auto w-[40px] h-[40px] leading-4 rounded-[50%];
 
     }
-    html .home{
-        background: url('../public/img/other/1.jpg');
-        background-repeat: no-repeat; 
-        background-size: 100%;
-        /* height: 100px; */
-/* opacity: 0.5; */
-
-/* } */
-
-/* } */
+}

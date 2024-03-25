@@ -18,18 +18,18 @@ export default function Breadcrumb({ links }: CustomBreadcrumbProps) {
         <>
             <div className="flex w-full h-[50px] items-center overflow-hidden rounded-2xl font-DanaMedium text-xl border-2 shadow-xl text-zinc-600 sm:mt-10 md:mt-36 lg:mt-20">
 
-                {links.map((link: BreadcrumbViewModel) => (
-                    <div className="breadcrumb__item relative">
-                        <Link to={`"\"${link.to}`} className="flex items-center justify-center text-base md:text-xl font-medium text-gray-700 text-center hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                {links.map(({id,title,to}: BreadcrumbViewModel) => (
+                    <div className="breadcrumb__item relative" key={id}>
+                        <Link to={`${to}`} className="flex items-center justify-center text-base md:text-xl font-medium text-gray-700 text-center hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
 
                             {/* {
-                                link.id > 1 ? null : (<span className="w-6 h-6 me-3 text-2xl">
+                                id > 1 ? null : (<span className="w-6 h-6 me-3 text-2xl">
                                     <RiHome4Line />
                                 </span>)
                             } */}
 
                             <span className=' pt-[4px]'>
-                                {link.title}
+                                {title}
                             </span>
                         </Link>
                     </div>

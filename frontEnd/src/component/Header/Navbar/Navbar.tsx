@@ -5,6 +5,7 @@ import { HiOutlineShoppingCart, HiOutlineUserCircle } from 'react-icons/hi'
 import { IoIosArrowBack } from 'react-icons/io'
 import UserContext, { UserContextViewModel } from '../../../context/userContext'
 import { Link } from 'react-router-dom'
+import ShowShoppingCart from './ShowShoppingCart'
 interface NavbarProps {
     toggleDarkMode: () => void;
 }
@@ -15,7 +16,7 @@ export default function Navbar({ toggleDarkMode }: NavbarProps) { // todo toggle
 
 
     return (
-        <div className='flex items-center justify-between w-full'>
+        <div className='flex-layout w-full'>
             {/* --nav & logo-- */}
             {/* <Navbar/> */}
             <nav className='flex items-center gap-x-5 lg:gap-x-9 h-14'>
@@ -73,55 +74,13 @@ export default function Navbar({ toggleDarkMode }: NavbarProps) { // todo toggle
                     <BsSearch />
                 </div>
                 {/* icons */}
-                <div className='flex items-center justify-between gap-x-4 lg:gap-x-5 text-2xl'>
+                <div className='flex-layout gap-x-4 lg:gap-x-5 text-2xl'>
                     {/* cart */}
                     <div className="relative group">
                         <div className='py-4  dark:text-white cursor-pointer'>
                             <HiOutlineShoppingCart />
                         </div>
-                        <div className="absolute p-6 w-[400px] left-0 top-full opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all delay-75 bg-white dark:bg-zinc-700 text-base rounded-2xl border-t-[3px] border-t-sky-400 text-zinc-700 dark:text-white space-y-4 tracking-normal shadow-xl child-hover:text-sky-400 child:transition-colors ">
-                            <div className="flex items-center justify-between  text-xs font-DanaMedium tracking-tighter">
-                                <span className="text-gray-300">1 مورد</span>
-                                <a href="#" className="flex items-center">
-                                    مشاهده سبد خرید
-                                    <div className="w-4 h-4 text-base">  <IoIosArrowBack /></div>
-                                </a>
-                            </div>
-                            <div className="border-b border-b-gray-300 dark:border-b-white/10 pb-1 divide-y divide-gray-100 dark:divide-white/10 child:py-5">
-                                <div className="flex gap-x-2.5">
-                                    <img src="img/shoe/gallery/vans.jpg" className="w-30 h-30 rounded-xl" alt="vans" />
-                                    <div className="flex flex-col justify-around">
-                                        <h4 className="font-DanaMedium text-zinc-700 dark:text-white text-base line-clamp-2"> ونس چرم ست کاپل مردانه mrc113-06</h4>
-                                        <div className=" text-zinc-700 dark:text-white text-xs font-DanaDemiBold">
-                                            400000
-                                            <span className="font-Dana text-sm">تومان</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="flex gap-x-2.5 ">
-                                    <img src="img/shoe/gallery/rasmi1.jpg" className="w-30 h-30 rounded-xl" alt="rasmi" />
-                                    <div className="flex flex-col justify-around">
-                                        <h4 className="font-DanaMedium text-zinc-700 dark:text-white text-base">کفش مردانه چرم عسلی </h4>
-                                        <div className=" text-zinc-700 dark:text-white text-xs font-DanaDemiBold">
-                                            400000
-                                            <span className="font-Dana text-sm">تومان</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex justify-between mt-5">
-                                <div>
-                                    <span className="font-DanaMedium text-gray-300 tracking-tighter text-xs"> مبلغ قابل  پرداخت </span>
-                                    <div className=" text-zinc-700 dark:text-white font-DanaDemiBold mt-1">
-                                        400000
-                                        <span className="font-Dana text-sm">تومان</span>
-                                    </div>
-                                </div>
-                                <a href="#" className="flex items-center justify-center w-[144px] h-14 bg-sky-500 tracking-tighter hover:bg-sky-600  rounded-xl text-white" >ثبت سفارش</a>
-                            </div>
-                        </div>
-
+                        <ShowShoppingCart />
                     </div>
                     {/* theme toggle */}
                     <div className='flex items-center cursor-pointer' onClick={toggleDarkMode}>

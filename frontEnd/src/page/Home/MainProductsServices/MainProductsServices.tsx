@@ -6,8 +6,8 @@ import { TfiHeadphoneAlt, TfiGift } from 'react-icons/tfi'
 export default function MainProductsServices() {
   return (
     <section className='services mb-12 md:mb-36 w-[90%] mx-auto pt-6 lg:pt-24'>
-    <div className='flex items-center justify-between gap-y-11 flex-wrap child:w-1/2 lg:child:w-auto child:text-center text-zinc-700 dark:text-white border-px py-14 px-10 rounded-3xl shadow-xl bg-gray-200 dark:bg-slate-900 '>
-      <div className='flex  items-center justify-center lg:justify-between flex-col sm:flex-row gap-x-4 gap-y-5 text-center'>
+    <div className='flex-layout gap-y-11 flex-wrap child:w-1/2 lg:child:w-auto child:text-center text-zinc-700 dark:text-white border-px py-14 px-10 rounded-3xl shadow-xl bg-gray-200 dark:bg-slate-900 '>
+      <div className='flex items-center justify-center lg:justify-between flex-col sm:flex-row gap-x-4 gap-y-5 text-center'>
         <div className='text-sky-500 text-4xl lg:text-6xl pb-2'>
           <TfiHeadphoneAlt />
         </div>

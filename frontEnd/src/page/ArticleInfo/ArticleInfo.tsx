@@ -90,7 +90,7 @@ export default function ArticleInfo() {
       </section>
       <div className="bg-white dark:bg-gray-800 px-3.5 md:px-5 pt-5 md:pt-7 pb-3.5 md:pb-6 shadow-light dark:shadow-none rounded-2xl mt-4 sm:mt-5" id="course-comments">
         {/* <!-- Comment Section Head --> */}
-        <div className="flex items-center justify-between flex-wrap mb-5">
+        <div className="flex-layout flex-wrap mb-5">
           <div className="flex items-center gap-x-3.5">
             <span className="block w-2.5 h-10 bg-pink-500 dark:bg-rose-500 rounded-sm"></span>
             <h3 className="text-zinc-700 dark:text-white font-morabba text-2xl md:text-3xl">

@@ -10,6 +10,8 @@ import "./Header.css"
 import Navbar from "./Navbar/Navbar";
 import UserContext from "../../context/userContext";
 import { Link } from "react-router-dom";
+import ShowShoppingCart from "./Navbar/ShowShoppingCart";
+import ShowShoppingCartMobile from "./ShowShoppingCartMobile";
 
 
 export default function Header() {
@@ -41,13 +43,12 @@ export default function Header() {
 
   }
 
-  const closeMobileCart = () => {
+  const closeMobileCart = ():void => {
     setIsShowMobilCart(false)
   }
 
   const showMobileCart = () => {
-    setIsShowMobilCart(true)
-
+    setIsShowMobilCart(!isShowMobilCart)
   }
 
   const openSUbmenuMobileNav = () => {
@@ -69,21 +70,21 @@ export default function Header() {
   return (
     <>
       {/* header */}
-      <header className='fixed right-0 left-0 top-9 w-[98%] lg:w-[90%] h-24 hidden md:flex items-center justify-between bg-gray-200 dark:bg-slate-900 mx-auto px-5 lg:px-10 pl-4 py-5 rounded-3xl z-40'>
+      <header className='fixed right-0 left-0 top-9 w-[98%] lg:w-[90%] h-24 hidden md:flex-layout bg-gray-200 dark:bg-slate-900 mx-auto px-5 lg:px-10 pl-4 py-5 rounded-3xl z-40'>
         <Navbar toggleDarkMode={toggleDarkMode} />
       </header>
 
 
       {/* header mobile */}
       <div className="flex flex-col w-full md:!hidden bg-gray-200 dark:bg-slate-900 z-40">
-        <div className="flex items-center justify-between h-16 px-4 text-2xl">
+        <div className="flex-layout h-16 px-4 text-2xl">
           <div className=" text-zinc-700 dark:text-white" onClick={showMobileNav}>
             <FaBars />
           </div>
           {/* nav */}
           <div className={`${isShowMobileNav ? 'right-0' : '-right-64'}  transition-all overflow-y-auto fixed top-0 bottom-0 w-64 min-h-screen pt-3 px-4 bg-white dark:bg-zinc-700 z-20`}>
             {/* nav icon */}
-            <div className="flex items-center justify-between pb-6 mb-6 border-b-2 border-b-gray-300 dark:border-b-white/10">
+            <div className="flex-layout pb-6 mb-6 border-b-2 border-b-gray-300 dark:border-b-white/10">
               <div className='flex items-center text-sky-500 text-6xl shrink-0'>
                 <GiSonicShoes />
               </div>
@@ -100,7 +101,7 @@ export default function Header() {
             </div>
             <ul className="space-y-6 child:pr-2.5 text-zinc-700 dark:text-white text-base">
               <li >
-                <a href="#" className={`${isShowSUbmenu ? "flex items-center justify-between bg-sky-200/20 text-sky-400 text-lg  rounded-md" : "flex items-center justify-between"}`} onClick={openSUbmenuMobileNav}>
+                <a href="#" className={`${isShowSUbmenu ? "flex-layout bg-sky-200/20 text-sky-400 text-lg  rounded-md" : "flex-layout"}`} onClick={openSUbmenuMobileNav}>
                   <span> کفش چرم</span>
                   <div>
                     <HiChevronDown />
@@ -115,7 +116,7 @@ export default function Header() {
                 </div>
               </li>
               <li >
-                <a href="#" className={`${isShowSUbmenu3 ? "flex items-center justify-between bg-sky-200/20 text-sky-400 text-lg  rounded-md" : "flex items-center justify-between"}`} onClick={openSUbmenuMobileNav3}>
+                <a href="#" className={`${isShowSUbmenu3 ? "flex-layout bg-sky-200/20 text-sky-400 text-lg  rounded-md" : "flex-layout"}`} onClick={openSUbmenuMobileNav3}>
                   <span>  بوت چرم</span>
                   <div>
                     <HiChevronDown />
@@ -131,19 +132,19 @@ export default function Header() {
               </li>
 
               <li >
-                <a href="#" className="flex items-center justify-between" >
+                <a href="#" className="flex-layout" >
                   صندل چرم
 
                 </a>
               </li>
               <li >
-                <a href="#" className="flex items-center justify-between" >
+                <a href="#" className="flex-layout" >
                   کیف چرم
 
                 </a>
               </li>
               <li >
-                <a href="#" className="flex items-center justify-between" >
+                <a href="#" className="flex-layout" >
                   ست چرم
 
                 </a>
@@ -167,9 +168,9 @@ export default function Header() {
               </Link>) : (<Link to="/login" className="inline-flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
                 <span className="tracking-tighter"> ورود /  ثبت‌نام </span>
               </Link>)}
-              <Link to="#" className="inline-flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
+              {/* <Link to="#" className="inline-flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
                 <span className="tracking-tighter"> ورود /  ثبت‌نام </span>
-              </Link>
+              </Link> */}
               <div className='inline-block cursor-pointer' onClick={toggleDarkMode}>
                 <div className='flex items-center gap-x-2 dark:hidden text-base'>
                   <BsMoon />
@@ -181,10 +182,7 @@ export default function Header() {
                   <span>تم روشن</span>
                 </div>
               </div>
-
-
-
-              <a href="#" className='inline-flex gap-x-2 text-base'>
+              <a href="#" className='inline-flex gap-x-2 text-base' onClick={showMobileCart}>
                 <HiOutlineShoppingCart />
                 <span className="tracking-tighter"> سبدخرید </span>
               </a>
@@ -193,44 +191,11 @@ export default function Header() {
           <div className="text-sky-500 text-5xl shrink-0">
             <GiSonicShoes />
           </div>
-          <div className=" text-zinc-700 dark:text-white" onClick={showMobileCart}>
+          <div className=" text-zinc-700 dark:text-white" >
             <HiOutlineShoppingCart />
           </div>
           <div className={`${isShowMobilCart ? "fixed top-0 bottom-0 left-0 flex flex-col w-64 min-h-screen pt-5 px-4 bg-white dark:bg-zinc-700 z-20 transition-all" : "fixed top-0 bottom-0 -left-64 flex flex-col w-64 min-h-screen pt-5 px-4 bg-white dark:bg-zinc-700 z-20 transition-all"}`}>
-            {/* cart */}
-            <div className="flex items-center justify-between pb-5 mb-5 border-b-2 border-b-gray-300 dark:border-b-white/10">
-              <div className='flex items-center text-zinc-600 dark:text-white text-xl shrink-0' onClick={closeMobileCart}>
-                <AiOutlineClose />
-              </div>
-              <span className="tracking-tighter text-zinc-700 dark:text-white text-base"> سبدخرید </span>
-
-            </div>
-            {/* cart body */}
-            <div className="child:pb-5 child:mb-5">
-              <div className="flex gap-x-1 border-b border-b-gray-300 dark:border-b-white/10">
-                <img src="img/shoe/gallery/vans.jpg" className="w-30 h-30 rounded-xl" alt="vans" />
-                <div className="flex flex-col justify-around">
-                  <h4 className="font-DanaMedium text-zinc-700 dark:text-white text-sm line-clamp-2">ونس چرم ست کاپل مردانه mrc113-06 </h4>
-                  <div className=" text-zinc-700 dark:text-white text-xs font-DanaDemiBold">
-                    400000
-                    <span className="font-DanaMedium text-xs">تومان</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* cart footer */}
-            <div className="flex items-end gap-x-4 mb-8 mt-auto text-sky-500">
-              <a href="#" className="flex items-center justify-center w-28 h-11 bg-sky-500 tracking-tighter hover:bg-sky-600 rounded-xl text-white text-base" >ثبت سفارش</a>
-              <div>
-                <span className="font-DanaMedium text-gray-300 tracking-tighter text-sm"> مبلغ قابل  پرداخت </span>
-                <div className=" text-zinc-700 dark:text-white font-DanaDemiBold text-base">
-                  400000
-                  <span className="font-Dana ">تومان</span>
-                </div>
-              </div>
-
-            </div>
+            <ShowShoppingCartMobile closeMobileCart={closeMobileCart}/>
           </div>
         </div>
         <div className="flex items-center text-center justify-between gap-20  h-16 px-4 text-2xl">
@@ -256,7 +221,7 @@ export default function Header() {
             <Slider />
           </div>
         </section>
-      </div> */}
+      </div> 
 
 
       {/* overlay */}
