@@ -1,95 +1,222 @@
-import React from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
+import Slider from 'react-slider';
+import "./Aside.css"
+import { number } from 'yup';
 
-export default function Aside() {
+export enum Gender {
+  All,
+  Female,
+  Male,
+}
+
+const max = 9000000;
+const min = 0;
+export interface FilterVlueViewModel {
+  searchValue: string,
+  isMale: boolean,
+  isFemale: boolean,
+  shoeSizesFilterList: string[],
+  priceFilterList: number[],
+  gender: number,
+}
+
+
+export const initialFilterValue: FilterVlueViewModel = {
+  searchValue: "",
+  isMale: false,
+  isFemale: false,
+  shoeSizesFilterList: [],
+  priceFilterList: [min, max],
+  gender: Gender.All,
+}
+
+interface Asidprops {
+  getFiltersValue: (allFilters: FilterVlueViewModel) => void
+}
+
+export default function Aside({ getFiltersValue }: Asidprops) {
+  const [allSize, setAllSize] = useState([])
+  const [filtersValue, setFiltersValue] = useState<FilterVlueViewModel>(initialFilterValue)
+  const { searchValue, isMale, isFemale, shoeSizesFilterList, priceFilterList, gender } = filtersValue;
+
+  const getAllSize = () => {
+    fetch("http://localhost:7500/api/size/")
+      .then(res => res.json())
+      .then(data => setAllSize(data))
+  }
+
+  useEffect(() => {
+    getAllSize()
+  }, [])
+
+  const productSearchHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.keyCode === 13) {
+      searchHandler()
+    }
+  };
+
+  const searchHandler = () => {
+    getFiltersValue(filtersValue)
+  };
+
+  const checkboxChangeHandler = (e: any, isTypeChecked: boolean = true): void => {
+    const newFiltersValue: FilterVlueViewModel = {
+      ...filtersValue,
+      // [e.target.name]: isTypeChecked ? e.target.checked : e.target.value,
+      [e.target.name]: e.target[isTypeChecked ? 'checked' : 'value'],
+    };
+
+    setFiltersValue(newFiltersValue)
+    getFiltersValue(newFiltersValue)
+  }
+
+  const shoeSizeFilterChangeHandler = (title: string) => {
+    const existShoeSize = shoeSizesFilterList.some(item => item === title);
+    const newShoeSizeFilter = existShoeSize ? shoeSizesFilterList.filter(item => item !== title) : [...shoeSizesFilterList, title];
+    const newFiltersValue: FilterVlueViewModel = {
+      ...filtersValue,
+      shoeSizesFilterList: newShoeSizeFilter
+    };
+
+    setFiltersValue(newFiltersValue);
+    getFiltersValue(newFiltersValue);
+  };
+  const ShoePriceFilterHandler = (value: number[]) => {
+    const newFiltersValue: FilterVlueViewModel = {
+      ...filtersValue,
+      priceFilterList: value
+    };
+    setFiltersValue(newFiltersValue)
+    getFiltersValue(newFiltersValue);
+  };
+
   return (
     <aside className="lg:sticky top-5 space-y-5">
-    <form className="space-y-5">
-      <div className="h-17 shadow-light dark:shadow-none bg-white dark:bg-gray-800 dark:border border-gray-700 rounded-2xl">
-        <div className="h-full flex items-center justify-between text-slate-500 dark:text-gray-500">
-          <input type="text" name="s" className="w-full bg-transparent dark:bg-transparent text-sm font-dana pr-7 border-none p-2 pl-8 text-gray-900 border border-gray-300 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="در بین محصولات جستجو کنید" />
-          <button className="mr-4 ml-6" type="submit">
-            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-            </svg>
-          </button>
-        </div>
-      </div>
-      {/* <!-- Category Filter --> */}
-      {/* <!-- Toggle Box Container --> */}
-      <div className="hidden sm:grid grid-cols-3 lg:grid-cols-1 gap-5 ">
-        <div className="p-2 lg:pr-7 h-17 shadow-light dark:shadow-none bg-white dark:bg-gray-800 dark:border border-gray-700 rounded-2xl">
-          <div className="flex items-center justify-between h-full">
-            <span className="text-sm text-zinc-700 dark:text-white select-none">محصولات دارای تخفیف</span>
-
-            <label className="relative grid items-center justify-self-center cursor-pointer">
-              <input type="checkbox" value="" className="sr-only peer" />
-              <div className="w-11 h-6 p-2 pl-8 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-              <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
-            </label>
-
+      <div className="space-y-5">
+        <div className="h-17 shadow-light dark:shadow-none bg-white dark:bg-gray-800 dark:border border-gray-700 rounded-2xl">
+          <div className="h-full flex-layout text-slate-500 dark:text-gray-500">
+            <input
+              type="text"
+              name="s"
+              className="w-full bg-transparent dark:bg-transparent text-sm font-dana pr-7 border-none p-2 pl-8 text-gray-900 border border-gray-300 bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+              placeholder="در بین محصولات جستجو کنید"
+              value={searchValue}
+              onChange={(e) => setFiltersValue((prevFilterData) => ({
+                ...prevFilterData,
+                searchValue: e.target.value,
+              }))}
+              onKeyUp={(e) => productSearchHandler(e)}
+            />
+            <button className="mr-4 ml-6" type="submit" onClick={searchHandler}>
+              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+              </svg>
+            </button>
           </div>
         </div>
-        <div className="p-2 lg:pr-7  h-17 shadow-light dark:shadow-none bg-white dark:bg-gray-800 dark:border border-gray-700 rounded-2xl">
-          <div className="flex items-center justify-between h-full">
-            <span className="text-sm text-zinc-700 dark:text-white select-none">  زنانه  </span>
-            <label className="relative grid items-center cursor-pointer">
-              <input type="checkbox" value="" className="sr-only peer" />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-              <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
-            </label>
+        {/* <!-- Category Filter --> */}
+        {/* <!-- Toggle Box Container --> */}
+        <div className="hidden sm:grid grid-cols-3 lg:grid-cols-1 gap-5 ">
+          <div className="">
+            <aside className=" p-2 lg:pr-7 h-17 shadow-light dark:shadow-none bg-white dark:bg-gray-800 dark:border border-gray-700 rounded-2xl py-2 text-base  font-DanaDemiBold relative w-full inline-block text-zinc-700 dark:text-white z-10 shadow-xl">
+              <div className="widget_title">فیلتر براساس قیمت :</div>
+              <div className="block pt-5 px-4 relative font-medium">
+                <form method="get" className="p-0">
+                  <div className="relative pt-2">
+                    <Slider
+                      className="slider"
+                      onChange={(value) => ShoePriceFilterHandler(value)}
+                      min={min}
+                      max={max}
+                      value={priceFilterList}
+                    />
+                    <div className="flex items-center mt-4 justify-between" data-step="10">
+                      {/* <button type="submit" className="button">فیلتر</button> */}
+                      <div className="price-label">
+                        قیمت: <span className="from">{priceFilterList[1]}&nbsp;تومان</span> — <span className="to">{priceFilterList[0]}&nbsp;تومان</span>
+                      </div>
+                      <div className="clear"></div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </aside>
           </div>
-        </div>
-        <div className="p-2 lg:pr-7 h-17 shadow-light dark:shadow-none bg-white dark:bg-gray-800 dark:border border-gray-700 rounded-2xl">
-          <div className="flex items-center justify-between h-full">
-            <span className="text-sm text-zinc-700 dark:text-white select-none">  مردانه </span>
-            <label className="relative grid items-center cursor-pointer">
-              <input type="checkbox" value="" className="sr-only peer" />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-              <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
-            </label>
-          </div>
-        </div>
-      </div>
-      <div className=" gap-5 mt-3 overflow-hidden lg:grid bg-white shadow-lg rounded-2xl dark:text-white dark:bg-gray-800 dark:border border-gray-700 ">
-        <div className="py-2 text-base  font-DanaDemiBold relative w-full inline-block text-zinc-700 dark:text-white dark:bg-gray-800 dark:border border-gray-700 pr-4 z-10 bg-white shadow-xl">سایز</div>
-        <div className="py-4 px-2 block relative font-DanaMedium ">
-          <ul className="flex flex-row lg:flex-col child:pb-2 child:pr-6 child:pl-2 child:w-full child:relative child:text-start">
-            <li className="widgetlis">
-              <a rel="nofollow" href="#">37</a>
+          <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">Identification</h3>
+          <ul className="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <div className="flex items-center ps-3">
+                <input id="list-radio-license" type="radio" value={Gender.All} name="gender" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" onChange={(e) => checkboxChangeHandler(e, false)} checked={gender == Gender.All} />
+                <label htmlFor="list-radio-license" className="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> همه </label>
+              </div>
             </li>
-            <li className="widgetlis">
-              <a rel="nofollow" href="#">38</a>
+            <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <div className="flex items-center ps-3">
+                <input id="list-radio-id" type="radio" value={Gender.Female} name="gender" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" onChange={(e) => checkboxChangeHandler(e, false)} checked={gender == Gender.Female} />
+                <label htmlFor="list-radio-id" className="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> زنانه </label>
+              </div>
             </li>
-            <li className="widgetlis">
-              <a rel="nofollow" href="#">39</a>
-            </li>
-            <li className="widgetlis">
-              <a rel="nofollow" href="#">40</a>
-            </li>
-            <li className="widgetlis"><a rel="nofollow" href="#">41</a>
-            </li>
-            <li className="widgetlis">
-              <a rel="nofollow" href="#">42</a>
-            </li>
-            <li className="widgetlis"><a rel="nofollow" href="#">43</a>
-            </li>
-            <li className="widgetlis">
-              <a rel="nofollow" href="#">44</a>
-            </li>
-            <li className="widgetlis">
-              <a rel="nofollow" href="#">45</a>
-            </li>
-            <li className="widgetlis">
-              <a rel="nofollow" href="#">46</a>
-            </li>
-            <li className="widgetlis">
-              <a rel="nofollow" href="#">47</a>
+            <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <div className="flex items-center ps-3">
+                <input id="list-radio-military" type="radio" value={Gender.Male} name="gender" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" onChange={(e) => checkboxChangeHandler(e, false)} checked={gender == Gender.Male} />
+                <label htmlFor="list-radio-military" className="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> مردانه </label>
+              </div>
             </li>
           </ul>
+          <div className="p-2 lg:pr-7  h-17 shadow-light dark:shadow-none bg-white dark:bg-gray-800 dark:border border-gray-700 rounded-2xl">
+            <div className="flex-layout h-full">
+              <span className="text-sm text-zinc-700 dark:text-white select-none"> زنانه </span>
+              <label className="relative grid items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  name='isFemale'
+                  checked={isFemale}
+                  onChange={(e) => checkboxChangeHandler(e)}
+                />
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
+              </label>
+            </div>
+          </div>
+          <div className="p-2 lg:pr-7 h-17 shadow-light dark:shadow-none bg-white dark:bg-gray-800 dark:border border-gray-700 rounded-2xl">
+            <div className="flex-layout h-full">
+              <span className="text-sm text-zinc-700 dark:text-white select-none">  مردانه </span>
+              <label className="relative grid items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  name='isMale'
+                  checked={isMale}
+                  onChange={(e) => checkboxChangeHandler(e)}
+                  className="sr-only peer" />
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div className=" gap-5 mt-3 overflow-hidden lg:grid bg-white shadow-lg rounded-2xl dark:text-white dark:bg-gray-800 dark:border border-gray-700 ">
+          <div className="py-2 text-base  font-DanaDemiBold relative w-full inline-block text-zinc-700 dark:text-white dark:bg-gray-800 dark:border border-gray-700 pr-4 z-10 bg-white shadow-xl">سایز</div>
+          <div className="py-4 px-2 block relative font-DanaMedium ">
+            <ul className="w-48 text-sm font-medium text-gray-900 bg-white dark:bg-gray-700 dark:text-white">
+              {allSize.map(({ _id, title }) => (
+                <li className="w-full" key={_id}>
+                  <div className="flex items-center ps-3">
+                    <input
+                      id={_id}
+                      type="checkbox"
+                      checked={shoeSizesFilterList.some(item => item === title)}
+                      onChange={() => shoeSizeFilterChangeHandler(title)}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                    <label htmlFor={_id} className="py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {title} </label>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
-    </form>
 
-  </aside>
+    </aside>
   )
 }
