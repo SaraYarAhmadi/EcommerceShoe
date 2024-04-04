@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, loginUserCtrl, getAllUser, getUser, deleteUser, updatedUser, handleRefreshToken, logout, saveAddress, userCart, getUserCart, emptyCart, applyCoupon, createOrder, getOrders, updateOrderStatus } from '../controller/userCtrl'
+import { createUser, loginUserCtrl, getAllUser, getUser, deleteUser, updatedUser, handleRefreshToken, logout, saveAddress, userCart, getUserCart, emptyCart, applyCoupon, createOrder, getOrders, updateOrderStatus, updateCartItem } from '../controller/userCtrl'
 import { authMiddleware, isAdmin } from '../middlewares/authMiddleware';
 
 const userRouter = express.Router();
@@ -13,6 +13,7 @@ userRouter.get("/all-users", getAllUser)
 userRouter.get("/get-orders", authMiddleware, getOrders);
 
 userRouter.get("/refresh", handleRefreshToken)
+userRouter.put("/cart/update-product", authMiddleware, updateCartItem);
 userRouter.get("/cart", authMiddleware, getUserCart);
 userRouter.get("/logout", logout)
 userRouter.get("/:id", getUser)

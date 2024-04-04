@@ -206,34 +206,56 @@ const userCart = asyncHandler(async (req, res) => {
     if (existingCart) {
       // اگر سبد خرید قبلی وجود داشت، محصولات جدید را به آن اضافه کنید
       products = existingCart.products;
-    }
 
-    for (let i = 0; i < cart.length; i++) {
-      let object = {};
-      object.product = cart[i]._id;
-      object.count = cart[i].count;
-      object.color = cart[i].color;
-      object.size = cart[i].size;
-      let getPrice = await Product.findById(cart[i]._id).select("price").exec();
-      object.price = getPrice.price;
-      products.push(object);
-    }
+      for (let i = 0; i < cart.length; i++) {
+        const existingProductIndex = products.findIndex(
+          (item) => item.product.toString() === cart[i]._id.toString()
+        );
 
-    let cartTotal = 0;
-    for (let i = 0; i < products.length; i++) {
-      cartTotal = cartTotal + products[i].price * products[i].count;
-    }
+        if (existingProductIndex !== -1) {
+          // اگر محصول قبلاً در سبد خرید وجود داشت، تعداد آن را به‌روزرسانی کنید
+          products[existingProductIndex].count += cart[i].count;
+        } else {
+          // در غیر این صورت، محصول را به لیست اضافه کنید
+          let object = {};
+          object.product = cart[i]._id;
+          object.count = cart[i].count;
+          object.color = cart[i].color;
+          object.size = cart[i].size;
+          let getPrice = await Product.findById(cart[i]._id).select("price").exec();
+          object.price = getPrice.price;
+          products.push(object);
+        }
+      }
 
-    if (existingCart) {
-      // اگر سبد خرید قبلی وجود داشت، آن را به روزرسانی کنید
+      let cartTotal = 0;
+      for (let i = 0; i < products.length; i++) {
+        cartTotal = cartTotal + products[i].price * products[i].count;
+      }
+
       existingCart.products = products;
       existingCart.cartTotal = cartTotal;
       await existingCart.save();
       res.json(existingCart);
     } else {
       // در غیر این صورت، سبد خرید جدید ایجاد کنید و محصولات را اضافه کنید
+      let newProducts = [];
+      let cartTotal = 0;
+
+      for (let i = 0; i < cart.length; i++) {
+        let object = {};
+        object.product = cart[i]._id;
+        object.count = cart[i].count;
+        object.color = cart[i].color;
+        object.size = cart[i].size;
+        let getPrice = await Product.findById(cart[i]._id).select("price").exec();
+        object.price = getPrice.price;
+        newProducts.push(object);
+        cartTotal = cartTotal + object.price * object.count;
+      }
+
       let newCart = await new cartModel({
-        products,
+        products: newProducts,
         cartTotal,
         orderby: user._id,
       }).save();
@@ -244,6 +266,58 @@ const userCart = asyncHandler(async (req, res) => {
   }
 });
 
+
+const updateCartItem = asyncHandler(async (req, res) => {
+  const { productId, quantity } = req.body;
+  const { _id } = req.user;
+
+  validateMongoDbId(_id);
+  validateMongoDbId(productId);
+
+  try {
+    const user = await userModel.findById(_id);
+    const existingCart = await cartModel.findOne({ orderby: user._id });
+
+    if (!existingCart) {
+      throw new Error("سبد خرید پیدا نشد.");
+    }
+
+    const { products } = existingCart;
+    const existingProduct = products.find(
+      (product) => product.product.toString() === productId
+    );
+
+    if (!existingProduct) {
+      throw new Error("محصول مورد نظر در سبد خرید یافت نشد.");
+    }
+
+    if (quantity === 0) {
+      // تعداد صفر است، محصول را از سبد خرید حذف کنید
+      existingCart.products = products.filter(
+        (product) => product.product.toString() !== productId
+      );
+    } else {
+      // تعداد غیر صفر است، تعداد محصول را به روز کنید
+      existingProduct.count = quantity;
+    }
+
+    // محاسبه مجموع قیمت سبد خرید پس از تغییرات
+    let cartTotal = 0;
+    for (let i = 0; i < existingCart.products.length; i++) {
+      const product = existingCart.products[i];
+      const getPrice = await Product.findById(product.product).select("price").exec();
+      product.price = getPrice.price;
+      cartTotal += product.price * product.count;
+    }
+
+    existingCart.cartTotal = cartTotal;
+    await existingCart.save();
+
+    res.json(existingCart);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
 
 const getUserCart = asyncHandler(async (req, res) => {
   const { _id } = req.user;
@@ -274,6 +348,8 @@ const emptyCart = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
+
 
 
 const applyCoupon = asyncHandler(async (req, res) => {
@@ -380,4 +456,4 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
   }
 });
 
-export { createUser, loginUserCtrl, getAllUser, getUser, deleteUser, updatedUser, handleRefreshToken, logout, saveAddress, userCart, getUserCart, emptyCart, applyCoupon, createOrder, getOrders, updateOrderStatus }
+export { createUser, loginUserCtrl, getAllUser, getUser, deleteUser, updatedUser, handleRefreshToken, logout, saveAddress, userCart, getUserCart, emptyCart, applyCoupon, createOrder, getOrders, updateOrderStatus, updateCartItem }
