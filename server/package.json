@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "nodemon --exec babel-node server.js"
+    "start": "nodemon --exec babel-node server.js",
+    "build": "npm i"
   },
   "dependencies": {
     "@babel/core": "^7.23.3",
