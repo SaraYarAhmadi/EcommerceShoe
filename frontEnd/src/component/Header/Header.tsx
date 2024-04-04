@@ -8,7 +8,7 @@ import { FaBars } from 'react-icons/fa'
 import { AiOutlineClose, AiOutlineHome } from 'react-icons/ai'
 import "./Header.css"
 import Navbar from "./Navbar/Navbar";
-import UserContext from "../../context/userContext";
+import UserContext, { UserContextViewModel } from "../../context/userContext";
 import { Link } from "react-router-dom";
 import ShowShoppingCart from "./Navbar/ShowShoppingCart";
 import ShowShoppingCartMobile from "./ShowShoppingCartMobile";
@@ -20,8 +20,11 @@ export default function Header() {
   const [isShowSUbmenu, setIsShowSUbmenu] = useState(false);
   const [isShowSUbmenu2, setIsShowSUbmenu2] = useState(false);
   const [isShowSUbmenu3, setIsShowSUbmenu3] = useState(false);
-  const userContext = useContext(UserContext)
+  const userContext: UserContextViewModel = useContext(UserContext)
 
+  const logoutHandler = () => {
+    userContext.logout()
+  }
 
   const toggleDarkMode = () => {
 
@@ -40,10 +43,9 @@ export default function Header() {
 
   const closeMobileNav = () => {
     setIsShowMobileNav(false)
-
   }
 
-  const closeMobileCart = ():void => {
+  const closeMobileCart = (): void => {
     setIsShowMobilCart(false)
   }
 
@@ -73,7 +75,6 @@ export default function Header() {
       <header className='fixed right-0 left-0 top-9 w-[98%] lg:w-[90%] h-24 hidden md:flex-layout bg-gray-200 dark:bg-slate-900 mx-auto px-5 lg:px-10 pl-4 py-5 rounded-3xl z-40'>
         <Navbar toggleDarkMode={toggleDarkMode} />
       </header>
-
 
       {/* header mobile */}
       <div className="flex flex-col w-full md:!hidden bg-gray-200 dark:bg-slate-900 z-40">
@@ -165,17 +166,13 @@ export default function Header() {
             <div className="flex flex-col items-start gap-y-6 text-sky-500 py-8 mt-8 border-t-2 border-t-gray-300 dark:border-t-white/10">
               {userContext.isLoggedIn ? (<Link to="#" className="inline-flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
                 <span className="tracking-tighter"> {userContext.userInfos.userName}</span>
-              </Link>) : (<Link to="/login" className="inline-flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
+              </Link>) : (<Link to="/login" className="inline-flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base" >
                 <span className="tracking-tighter"> ورود /  ثبت‌نام </span>
               </Link>)}
-              {/* <Link to="#" className="inline-flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
-                <span className="tracking-tighter"> ورود /  ثبت‌نام </span>
-              </Link> */}
               <div className='inline-block cursor-pointer' onClick={toggleDarkMode}>
                 <div className='flex items-center gap-x-2 dark:hidden text-base'>
                   <BsMoon />
                   <span>تم تیره</span>
-
                 </div>
                 <div className='hidden dark:flex items-center gap-x-2 text-base dark:text-yellow-200'>
                   <BsSun />
@@ -186,16 +183,20 @@ export default function Header() {
                 <HiOutlineShoppingCart />
                 <span className="tracking-tighter"> سبدخرید </span>
               </a>
+              <a href="#" className='flex items-center justify-center gap-x-2 text-base' onClick={showMobileCart}>
+                <HiOutlineUserCircle />
+                <a href="#" className="tracking-tighter" onClick={logoutHandler}> خروج از سیستم </a>
+              </a>
             </div>
           </div>
           <div className="text-sky-500 text-5xl shrink-0">
             <GiSonicShoes />
           </div>
-          <div className=" text-zinc-700 dark:text-white" >
+          <a href="#" className='text-zinc-700 dark:text-white' onClick={showMobileCart}>
             <HiOutlineShoppingCart />
-          </div>
+          </a>
           <div className={`${isShowMobilCart ? "fixed top-0 bottom-0 left-0 flex flex-col w-64 min-h-screen pt-5 px-4 bg-white dark:bg-zinc-700 z-20 transition-all" : "fixed top-0 bottom-0 -left-64 flex flex-col w-64 min-h-screen pt-5 px-4 bg-white dark:bg-zinc-700 z-20 transition-all"}`}>
-            <ShowShoppingCartMobile closeMobileCart={closeMobileCart}/>
+            <ShowShoppingCartMobile closeMobileCart={closeMobileCart} />
           </div>
         </div>
         <div className="flex items-center text-center justify-between gap-20  h-16 px-4 text-2xl">
@@ -210,21 +211,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-
-
-
-
-      {/* banner */}
-      {/* <div>
-        <section className="banner">
-          <div className="h-6 border-2 border-sky-200 flex justify-end items-start ">
-            <Slider />
-          </div>
-        </section>
-      </div> 
-
-
-      {/* overlay */}
       <div className={`overlay ${isShowMobileNav || isShowMobilCart ? 'overlay--visible' : ''}`}></div>
     </>
 

@@ -1,4 +1,3 @@
-
 .swiper {
   width: 100%;
   height: 100%;
@@ -11,8 +10,8 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   padding: 40px 60px;
-  overflow: hidden; 
-  
+  overflow: hidden;
+
 }
 
 .parallax-bg {
@@ -33,6 +32,7 @@
 .swiper-slide-contents {
   max-width: 66%;
 }
+
 .swiper-slide .title {
   padding-top: 30px;
   font-size: 41px;

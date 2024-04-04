@@ -13,8 +13,12 @@ export interface ProductContextViewModel {
   category: string,
   size: string[],
   gender: number,
-  totalrating: string
+  totalrating: string,
+  count: number,
+  product: {
+    title: string,
+    images: string[],
+  },
 }
-
 
 export const ProductContext = createContext<ProductContextViewModel[]>([]);

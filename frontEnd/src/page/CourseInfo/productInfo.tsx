@@ -4,7 +4,7 @@ import { CiStar } from "react-icons/ci";
 import MainProductsServices from "../Home/MainProductsServices/MainProductsServices";
 import UserContext from "../../context/userContext";
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ProductContextViewModel } from "../../context/productContex";
 import { BasketContext } from "../../context/basketContext";
 
@@ -21,7 +21,12 @@ const productInitialValue: ProductContextViewModel = {
   category: "",
   size: [],
   gender: 0,
-  totalrating: ""
+  totalrating: "",
+  count: 0,
+  product: {
+    title: "",
+    images: []
+  }
 }
 
 interface ProductBasketViewModel {
@@ -43,7 +48,7 @@ export default function ProductInfo() {
   const [productBasket, setProductBasket] = useState<ProductBasketViewModel>(initialProductBasket);
   const { poroductSize, productColor, productCount } = productBasket;
   const userContext = useContext(UserContext)
-  const basketContext  = useContext(BasketContext);
+  const basketContext = useContext(BasketContext);
   const { userInfos } = userContext;
   console.log("BasketContextBasketContext", basketContext);
 
@@ -65,19 +70,21 @@ export default function ProductInfo() {
         }
       ]
     };
+    if (productColor && poroductSize && productCount > 0) {
+      fetch('http://localhost:7500/api/user/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${userInfos.refreshToken}` // اضافه کردن توکن به هدر درخواست
+        },
+        body: JSON.stringify(requestData),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log("dataBaskettttt", data));
 
-    fetch('http://localhost:7500/api/user/cart', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${userInfos.refreshToken}` // اضافه کردن توکن به هدر درخواست
-      },
-      body: JSON.stringify(requestData),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log("dataBaskettttt", data));
-
+    }
   }
+
   const colorSelectionHandler = (color: string) => {
     const newProductBasket: ProductBasketViewModel = {
       ...productBasket,
@@ -220,7 +227,7 @@ export default function ProductInfo() {
                   <span className="font-Dana text-sm mx-2">تومان</span>
                 </div>
               </div>
-              <a href="#" className="flex items-center justify-center w-[144px] h-14 bg-sky-500 tracking-tighter hover:bg-sky-600  rounded-xl text-white" onClick={ProductOrderRegistration} >ثبت سفارش</a>
+              <Link to="/Product-cart/:productCart" className="flex items-center justify-center w-[144px] h-14 bg-sky-500 tracking-tighter hover:bg-sky-600  rounded-xl text-white" onClick={ProductOrderRegistration} >ثبت سفارش</Link>
             </div>
 
           </div>

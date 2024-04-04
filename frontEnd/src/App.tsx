@@ -1,11 +1,11 @@
 
 import Header from './component/Header/Header';
-import { json, useNavigate, useRoutes } from 'react-router-dom';
+import {  useRoutes } from 'react-router-dom';
 import routes from './routes';
 import './App.css';
 import Footer from './component/Footer/Footer';
-import UserContext, { UserInfosViewModel, UserContextViewModel } from './context/userContext';
-import { useEffect, useState, useCallback, useContext } from 'react';
+import UserContext, { UserInfosViewModel } from './context/userContext';
+import { useEffect, useState, useCallback } from 'react';
 import { ProductContext, ProductContextViewModel } from './context/productContex';
 import { BasketContext, BasketContextViweModel, initialProductBasket } from './context/basketContext';
 
@@ -33,6 +33,7 @@ function App() {
   const [userData, setUserData] = useState<UserDataViewModel>(userDataResetValue);
   const [allProducts, setAllProducts] = useState<ProductContextViewModel[]>([]);
   const [basketProducts, setbasketProducts] = useState<BasketContextViweModel>(initialProductBasket);
+  const AUTO_LOGOUT_TIME = 24 * 60 * 60 * 1000;
 
   const getAllProducts = async () => {
     const res = await fetch('http://localhost:7500/api/products');
@@ -61,8 +62,6 @@ function App() {
   useEffect(() => {
     getAllProducts();
   }, [])
-
-
 
   const login = useCallback((userInfos: UserInfosViewModel): void => {
     setUserData((prevUserData) => ({

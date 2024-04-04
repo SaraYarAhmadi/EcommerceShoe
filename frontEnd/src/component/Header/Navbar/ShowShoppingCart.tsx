@@ -1,22 +1,20 @@
 import React, { useContext } from 'react'
 import { IoIosArrowBack } from 'react-icons/io';
 import { BasketContext, BasketContextViweModel } from '../../../context/basketContext';
+import { Link } from 'react-router-dom';
 
 export default function ShowShoppingCart() {
     const basketContext = useContext(BasketContext)
     const { products } = basketContext;
-    console.log("productsproductsproductsproductsproductsproductsproductsproductsproductssssssssssssssssssssssssssssss", products);
-
-
 
     return (
-        <div className="absolute p-6 w-[400px] left-0 top-full opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all delay-75 bg-white dark:bg-zinc-700 text-base rounded-2xl border-t-[3px] border-t-sky-400 text-zinc-700 dark:text-white space-y-4 tracking-normal shadow-xl child-hover:text-sky-400 child:transition-colors ">
+        <div className="absolute p-6 w-[400px] left-0 top-full opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all delay-75 bg-white dark:bg-zinc-700 text-base rounded-2xl border-t-[3px] border-t-sky-400 text-zinc-700 dark:text-white space-y-4 tracking-normal shadow-xl child-hover:text-sky-400 child:transition-colors">
             <div className="flex-layout  text-xs font-DanaMedium tracking-tighter">
-                <span className="text-gray-300">1 مورد</span>
-                <a href="#" className="flex items-center">
+                <span className="text-gray-300">{products.length} مورد</span>
+                <Link to="/Product-cart/:productCart" className="flex items-center">
                     مشاهده سبد خرید
                     <div className="w-4 h-4 text-base">  <IoIosArrowBack /></div>
-                </a>
+                </Link>
             </div>
             <div className="border-b border-b-gray-300 dark:border-b-white/10 pb-1 divide-y divide-gray-100 dark:divide-white/10 child:py-5">
                 {products.map((itemBasket) => (
@@ -40,7 +38,7 @@ export default function ShowShoppingCart() {
                         <span className="font-Dana text-sm">تومان</span>
                     </div>
                 </div>
-                <a href="#" className="flex items-center justify-center w-[144px] h-14 bg-sky-500 tracking-tighter hover:bg-sky-600  rounded-xl text-white" >ثبت سفارش</a>
+                <Link to="/Product-cart/:productCart" className="flex items-center justify-center w-[144px] h-14 bg-sky-500 tracking-tighter hover:bg-sky-600  rounded-xl text-white"> ثبت سفارش </Link>
             </div>
         </div>
     )

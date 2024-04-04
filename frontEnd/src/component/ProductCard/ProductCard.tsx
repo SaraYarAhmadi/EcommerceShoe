@@ -23,17 +23,10 @@ export default function ProductCard({
     totalrating
 }: ProductContextViewModel) {
 
-    // console.log(images);
-
-    // size.map(size => (
-
-    //     <span className='prd-size-item'>{size}</span>
-    // ))
 
     return (
         <div className='group p-2 md:p-5 bg-white dark:bg-zinc-700 shadow-xl rounded-2xl border-2 border-gray-200 dark:border-gray-700'>
             <div className='relative w-100 h-[340px] mb-2 md:mb-5 rounded-t-lg overflow-hidden'>
-                {/* <img src="/img/shoe/gallery/rasmi1.jpg" alt="css" className='w-32 mx-auto md:w-auto' /> */}
                 <img src={images[0]} alt="css" className='w-100 h-full mx-auto md:w-auto' />
                 {size.length > 1 &&
                     <div className='absolute inset-0 bottom-0 w-full h-full hidden md:flex text-center items-center justify-center invisible opacity-0 group-hover:visible group-hover:opacity-100 bg-gradient-to-r from-orange-200/80 to-orange-300/80 transition-all delay-75 '>
@@ -61,7 +54,6 @@ export default function ProductCard({
                 <Link to={`/Product-info/${_id}`} className='flex items-center gapx2 md:gap-x-3' >
                     <span className='flex items-center justify-center w-[26px] md:w-9 md:h-9 bg-gray-100 hover:bg-sky-600 dark:bg-zinc-800 dark:hover:bg-slate-500 text-gray-400 hover:text-white rounded-full text-xl md:text-2xl'><HiOutlineShoppingCart /></span>
                 </Link>
-
                 <span className=' md:h-6 text-base md:text-xl flex items-center justify-center text-yellow-400'>
                     <CiStar />
                     <CiStar />
@@ -76,31 +68,3 @@ export default function ProductCard({
         </div>
     )
 }
-
-
-{/* <div className='blog-item group'>
-    <div className='relative w-[400px] h-[120px] sm:h-auto sm:w-auto sm:mb-4 rounded-2xl rondede-bl-4xl overflow-hidden'>
-        <img src={blog.images[0]} alt="blog" className='h-full w-full sm:h-auto object-cover' />
-        <div className='absolute inset-0 w-full h-full hidden md:flex items-center justify-center invisible opacity-0 group-hover:visible group-hover:opacity-100 bg-gradient-to-r from-orange-200/80 to-orange-300/80 transition-all delay-75'>
-            <div className='text-amber-900 text-6xl lg:text-9xl '>
-                <GiShoebillStork />
-            </div>
-        </div>
-    </div>
-    <div className='flex items-center justify-center w-full flex-col sm:flex-row pb-5 text-center '>
-        <a href="#" className='font-DanaDemiBold md:font-Dana text-sm md:text-xl mt-2.5 sm:mt-5 line-clamp-2 text-sky-700 dark:text-white'> {blog.title}</a>
-
-        <div className='flex items-center justify-center w-full sm:hidden border-t border-t-gray-100 dark:border-t-white/10 pt-[28px] pb-1.5'>
-            <a href="#" className='flex items-center gap-x-1 ml-1.5 font-DanaMedium text-xs h-5 rounded-md pr-2.5 bg-orange-200/20 text-orange-300'>مطالعه بیشتر...</a>
-        </div>
-    </div>
-</div> */}
-
-{/* <div className="prd_term_list">
-    <span>40</span>
-    <span>41</span>
-    <span>42</span>
-    <span>43</span>
-    <span>44</span>
-    <strong>سایز</strong>
-</div> */}

@@ -42,7 +42,7 @@ export default function ShowShoppingCartMobile({ closeMobileCart }) {
                 <div>
                     <span className="font-DanaMedium text-gray-300 tracking-tighter text-sm"> مبلغ قابل  پرداخت </span>
                     <div className=" text-zinc-700 dark:text-white font-DanaDemiBold text-base">
-                    {basketContext.cartTotal}
+                        {basketContext.cartTotal}
                         <span className="font-Dana ">تومان</span>
                     </div>
                 </div>

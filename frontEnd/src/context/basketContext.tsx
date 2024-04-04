@@ -5,19 +5,16 @@ export interface BasketContextViweModel {
     _id: string,
     cartTotal: number,
     orderby: string,
+    count: number,
     products: ProductContextViewModel[]
 
 }
 
-export const initialProductBasket :BasketContextViweModel ={
+export const initialProductBasket: BasketContextViweModel = {
     _id: "",
     cartTotal: 0,
     orderby: "",
+    count: 0,
     products: []
-} 
-
+}
 export const BasketContext = createContext<BasketContextViweModel>(initialProductBasket)
-
-// useEffect(()=>{
-
-// },[])

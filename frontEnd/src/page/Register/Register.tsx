@@ -8,6 +8,7 @@ import Button from '../../component/CustomButton/CustomButton';
 import { useFormik } from 'formik';
 import registerSchema from '../../validaitons/registerFormValidaitor';
 import UserContext from '../../context/userContext';
+import { Link } from 'react-router-dom';
 
 const Register = memo(() => {
     const userContext = useContext(UserContext);
@@ -23,7 +24,6 @@ const Register = memo(() => {
                 email,
                 password,
             };
-
             fetch('http://localhost:7500/api/user/register', {
                 method: 'POST',
                 headers: {
@@ -52,13 +52,11 @@ const Register = memo(() => {
 
     const showErrorMessage = (form: any, name: string): ReactNode => {
         const result = form.errors[name] && form.touched[name] ? <h2>{form.errors[name]}</h2> : <></>;
-
         return result;
     };
 
     const { handleSubmit, values, handleChange, handleBlur, isSubmitting } = form;
     const { userName, phone, email, password } = values;
-
     return (
         <div className="flex items-center justify-center md:mt-36 md:mb-24">
             <div className="w-full xs:w-[500px] px-5 xs:p-0 border border-gray-300 shadow-light dark:shadow-none bg-white dark:bg-gray-800 rounded-2xl ">
@@ -76,7 +74,7 @@ const Register = memo(() => {
                             <h2 className="font-morabbaMedium text-zinc-700 dark:text-white text-3xl mb-2 sm:mb-5"> عضویت </h2>
                             <span className="help-alert font-danaLight text-lg text-slate-500 dark:text-gray-500">
                                 قبلا ثبت نام کرده‌اید؟
-                                <a href="#" className="text-sky-400 hover:text-sky-500 transition-colors"> وارد شوید </a>
+                                <Link to="/login" className="text-sky-400 hover:text-sky-500 transition-colors"> وارد شوید </Link>
                             </span>
                         </div>
                         <form className="rounded-2xl" onSubmit={handleSubmit}>
@@ -91,7 +89,6 @@ const Register = memo(() => {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     />
-
                                     <span className='absolute left-3 sm:left-4 sm:top-3 sm:text-2xl'>
                                         <CiUser />
                                     </span>
@@ -130,7 +127,6 @@ const Register = memo(() => {
                                     </span>
                                 </div>
                                 {showErrorMessage(form, 'email')}
-
                                 <div className="relative overflow-hidden">
                                     <input
                                         type="password"
@@ -146,10 +142,7 @@ const Register = memo(() => {
                                     </span>
                                 </div>
                                 {showErrorMessage(form, 'password')}
-
-
                             </div>
-
                             <Button type="submit"
                                 className={`${isSubmitting ? "bg-red-500" : "bg-green-400"} user-data__submit button-md h-12 sm:button-lg bg-green-400 tracking-tighter hover:bg-green-500 rounded-xl text-white text-xl mt-2.5 sm:mt-4 w-full`}
                                 disabled={isSubmitting}>

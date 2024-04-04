@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import ProductCard from '../../../component/ProductCard/ProductCard';
 import { ProductContext, ProductContextViewModel } from '../../../context/productContex';
+import { Link } from 'react-router-dom';
 
 export default function MainNewestProducts() {
 
@@ -19,16 +20,14 @@ export default function MainNewestProducts() {
                             <h4 className="section-title"> جدید ترین محصولات</h4>
                         </div>
                         <div>
-                            <a href="#" className="section-link-category-box ">
+                            <Link to="/Category-info/category" className="section-link-category-box ">
                                 <span className="hidden md:inline-block">
                                     مشاهده محصولات
                                 </span>
                                 <span className="inline-block md:hidden"> مشاهده همه</span>
                                 <div className="w-4 h-4 text-base">  <IoIosArrowBack /></div>
-
-                            </a>
+                            </Link>
                         </div>
-
                     </div>
                     <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 md:gap-5 '>
                         {

@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { BsMoon, BsSearch, BsSun } from 'react-icons/bs'
 import { GiSonicShoes } from 'react-icons/gi'
 import { HiOutlineShoppingCart, HiOutlineUserCircle } from 'react-icons/hi'
-import { IoIosArrowBack } from 'react-icons/io'
 import UserContext, { UserContextViewModel } from '../../../context/userContext'
 import { Link } from 'react-router-dom'
 import ShowShoppingCart from './ShowShoppingCart'
@@ -11,9 +10,10 @@ interface NavbarProps {
 }
 
 export default function Navbar({ toggleDarkMode }: NavbarProps) { // todo toggleDarkMode check name
-
     const userContext: UserContextViewModel = useContext(UserContext)
-
+    const logoutHandler = () => {
+        userContext.logout()
+    };
 
     return (
         <div className='flex-layout w-full'>
@@ -31,28 +31,27 @@ export default function Navbar({ toggleDarkMode }: NavbarProps) { // todo toggle
                     </li>
                     {/* sub menu first */}
                     <li className='relative group'>
-                        <Link to="Category-info/:categoryName"> کفش چرم  </Link>
-                        <div className='absolute p-6 w-52 top-full opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all delay-75 bg-white dark:bg-zinc-700 text-base rounded-2xl border-t-[3px] border-t-sky-400 text-zinc-700 dark:text-white space-y-4 tracking-normal shadow-xl child:inline-block child-hover:text-sky-400 child:transition-colors'>
-                            <Link to="Category-info/:categoryName">کفش چرم مردانه </Link>
-                            <Link to="Category-info/:categoryName">کفش چرم زنانه </Link>
+                        <Link to="/Category-info/category"> کفش چرم  </Link>
+                        <div className='dropdown-menu dropdown-menu top-full w-52'>
+                            <Link to="/Category-info/category">کفش چرم مردانه </Link>
+                            <Link to="/Category-info/category">کفش چرم زنانه </Link>
                         </div>
                     </li>
                     <li className="relative group">
-                        <a href="#">  بوت چرم </a>
-                        <div className='absolute p-6 w-52 top-full opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all delay-75 bg-white dark:bg-zinc-700 text-base rounded-2xl border-t-[3px] border-t-sky-400 text-zinc-700 dark:text-white space-y-4 tracking-normal shadow-xl child:inline-block child-hover:text-sky-400 child:transition-colors'>
-                            <a href="#"> بوت چرم مردانه </a>
-                            <a href="#">  بوت چرم زنانه</a>
+                        <Link to="/Category-info/category">  بوت چرم </Link>
+                        <div className='dropdown-menu top-full w-52'>
+                            <Link to="/Category-info/category"> بوت چرم مردانه </Link>
+                            <Link to="/Category-info/category">  بوت چرم زنانه</Link>
                         </div>
                     </li>
                     <li className="relative group">
-                        <a href="#">  صندل چرم </a>
-                    </li>
-
-                    <li>
-                        <a href="#">کیف چرم</a>
+                        <Link to="/Category-info/category">  صندل چرم </Link>
                     </li>
                     <li>
-                        <a href="#">ست چرم</a>
+                        <Link to="/Category-info/category">کیف چرم</Link>
+                    </li>
+                    <li>
+                        <Link to="/Category-info/category">ست چرم</Link>
                     </li>
                 </ul>
             </nav>
@@ -92,20 +91,24 @@ export default function Navbar({ toggleDarkMode }: NavbarProps) { // todo toggle
                         </div>
 
                     </div>
-
                     <span className='w-px h-14 bg-gray-400'></span>
                     {/* login */}
                     {
-                        userContext.isLoggedIn ? (<Link to="#" className="hidden xl:flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
+                        userContext.isLoggedIn ? (<Link to="#" className="relative group hidden xl:flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
                             <span className="tracking-tighter"> {userContext.userInfos.userName}</span>
-                        </Link>) : (<Link to="/login" className="hidden xl:flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
-                            <span className="tracking-tighter"> ورود /  ثبت‌نام </span>
-                        </Link>)
+                            <div className='dropdown-menu -left-5 top-full w-40'>
+                                <a href="#" onClick={logoutHandler}> خروج از سیستم </a>
+                            </div>
+                        </Link>) :
+                            (<Link to="/login" className="hidden xl:flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
+                                <span className="tracking-tighter"> ورود /  ثبت‌نام </span>
+                            </Link>)
                     }
-
-
-                    <div className='text-sky-400 text-3xl xl:hidden'>
+                    <div className='relative group text-sky-400 text-3xl xl:hidden'>
                         <HiOutlineUserCircle />
+                        <div className='dropdown-menu -left-16 top-10 w-40 '>
+                            <a href="#" onClick={logoutHandler}> خروج از سیستم </a>
+                        </div>
                     </div>
                 </div>
             </div>

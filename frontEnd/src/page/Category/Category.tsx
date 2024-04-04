@@ -73,7 +73,6 @@ export default function Categories() {
               }
             </div>
           </section>
-
         </section>
       </div>
     </main>

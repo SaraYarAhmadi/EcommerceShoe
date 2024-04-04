@@ -1,19 +1,37 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Pagination, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-
-// import './styles.css';
-import { HiOutlineShoppingCart } from 'react-icons/hi';
-import { CiStar } from 'react-icons/ci';
+import { ProductContext, ProductContextViewModel } from './context/productContex';
 import ProductCard from './component/ProductCard/ProductCard';
 
+
+export interface ProductViewModel {
+  _id: string;
+  title: string;
+  description: string;
+  slug: string,
+  price: number,
+  quantity: number,
+  sold: number,
+  images: string[];
+  color: string[],
+  category: string,
+  size: string[],
+  gender: number,
+  totalrating: number
+}
+
 export default function SwiperProduct() {
+  const productContext = useContext(ProductContext)
+  const latestProduct = productContext.filter((product, index) => {
+    return index >= productContext.length - 6;
+  });
+
   return (
     <div className='w-full'>
-
       <Swiper
         slidesPerView={1}
         spaceBetween={30}
@@ -22,7 +40,6 @@ export default function SwiperProduct() {
         }}
         loop={false}
         navigation={true}
-
         breakpoints={{
           640: {
             slidesPerView: 1,
@@ -44,27 +61,12 @@ export default function SwiperProduct() {
         modules={[Pagination, Navigation]}
         className="mySwiper "
       >
-        <SwiperSlide className='h-full  dark:bg-zinc-700 p-0'>
-          <ProductCard />
-        </SwiperSlide>
-        <SwiperSlide className='h-full  dark:bg-zinc-700 p-0'>
-          <ProductCard />
-        </SwiperSlide>
-        <SwiperSlide className='h-full  dark:bg-zinc-700 p-0'>
-          <ProductCard />
-        </SwiperSlide>
-        <SwiperSlide className='h-full  dark:bg-zinc-700 p-0'>
-          <ProductCard />
-        </SwiperSlide>
-        <SwiperSlide className='h-full  dark:bg-zinc-700 p-0'>
-          <ProductCard />
-        </SwiperSlide>
-        <SwiperSlide className='h-full dark:bg-zinc-700 p-0'>
-          <ProductCard />
-        </SwiperSlide>
-       
+        {!!latestProduct?.length && latestProduct.map((product: ProductContextViewModel) => (
+          <SwiperSlide  className='h-full  dark:bg-zinc-700 p-0'>
+            <ProductCard key={product._id} {...product} />
+          </SwiperSlide>
+        ))}
       </Swiper>
-
     </div>
   )
 }
