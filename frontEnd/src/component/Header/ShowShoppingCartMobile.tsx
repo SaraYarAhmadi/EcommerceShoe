@@ -2,7 +2,11 @@ import React, { useContext } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 import { BasketContext, BasketContextViweModel } from '../../context/basketContext';
 
-export default function ShowShoppingCartMobile({ closeMobileCart }) {
+interface ShowShoppingCartMobileProps {
+    closeMobileCart?: () => void
+}
+
+export default function ShowShoppingCartMobile({ closeMobileCart }: ShowShoppingCartMobileProps) {
 
     const basketContext = useContext(BasketContext)
     const { products } = basketContext;
