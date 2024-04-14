@@ -1,6 +1,6 @@
 
 import Header from './component/Header/Header';
-import {  useRoutes } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
 import routes from './routes';
 import './App.css';
 import Footer from './component/Footer/Footer';
@@ -8,6 +8,7 @@ import UserContext, { UserInfosViewModel } from './context/userContext';
 import { useEffect, useState, useCallback } from 'react';
 import { ProductContext, ProductContextViewModel } from './context/productContex';
 import { BasketContext, BasketContextViweModel, initialProductBasket } from './context/basketContext';
+import Loading from './component/Loading/Loading';
 
 interface UserDataViewModel {
   isLoggedIn: boolean,
@@ -33,16 +34,17 @@ function App() {
   const [userData, setUserData] = useState<UserDataViewModel>(userDataResetValue);
   const [allProducts, setAllProducts] = useState<ProductContextViewModel[]>([]);
   const [basketProducts, setbasketProducts] = useState<BasketContextViweModel>(initialProductBasket);
+  const [refreshTokenData, setRefreshTokenData] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const AUTO_LOGOUT_TIME = 24 * 60 * 60 * 1000;
 
   const getAllProducts = async () => {
     const res = await fetch('http://localhost:7500/api/products');
     const data = await res.json();
+    setLoading(false);
 
     setAllProducts(data);
   }
-
-
 
   const getAllBasketProducts = async (refreshToken: string) => {
     try {
@@ -52,7 +54,7 @@ function App() {
         }
       });
       const data = await res.json();
-      setbasketProducts(data)
+      setbasketProducts(data ? data : { products: [] })
       console.log("basketdata", data);
     } catch (error) {
       console.log(error);
@@ -60,6 +62,7 @@ function App() {
   }
 
   useEffect(() => {
+    setLoading(true);
     getAllProducts();
   }, [])
 
@@ -78,7 +81,13 @@ function App() {
     localStorage.removeItem('user');
   }, []);
 
-  useEffect(() => {
+  const updateBasketProducts = useCallback((products) => {
+    // setbasketProducts({ ...basketProducts, products });
+    if (refreshTokenData) getAllBasketProducts(refreshTokenData)
+    else refreshToken()
+  }, []);
+
+  function refreshToken() {
     const user = localStorage.getItem("user");
     const userId = user ? JSON.parse(user)?.userId : '';
     if (userId) {
@@ -91,23 +100,30 @@ function App() {
             isLoggedIn: true,
             userInfos: user,
           });
+          setRefreshTokenData(user?.refreshToken)
           getAllBasketProducts(user?.refreshToken);
         });
     } else {
     }
+  }
+
+  useEffect(() => {
+    refreshToken()
 
   }, [login])
 
 
   return (
-
     <UserContext.Provider
       value={{ ...userData, login, logout, }}    >
       <ProductContext.Provider value={allProducts}      >
-        <BasketContext.Provider value={basketProducts}      >
-          <Header />
-          {router}
-          <Footer />
+        <BasketContext.Provider value={{ ...basketProducts, updateBasketProducts }}      >
+          {loading ? <Loading /> :
+            <>
+              <Header />
+              {router}
+              <Footer />
+            </>}
         </BasketContext.Provider>
       </ProductContext.Provider>
     </UserContext.Provider>

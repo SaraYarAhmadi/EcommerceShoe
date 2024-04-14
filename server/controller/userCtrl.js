@@ -270,22 +270,22 @@ const userCart = asyncHandler(async (req, res) => {
 const updateCartItem = asyncHandler(async (req, res) => {
   const { productId, quantity } = req.body;
   const { _id } = req.user;
-
+  // console.log("productId => ", productId);
   validateMongoDbId(_id);
   validateMongoDbId(productId);
 
   try {
     const user = await userModel.findById(_id);
     const existingCart = await cartModel.findOne({ orderby: user._id });
+    // console.log("user => ", user);
+    console.log("existingCartBefore => ", existingCart);
 
     if (!existingCart) {
       throw new Error("سبد خرید پیدا نشد.");
     }
 
     const { products } = existingCart;
-    const existingProduct = products.find(
-      (product) => product.product.toString() === productId
-    );
+    const existingProduct = products.find((product) => product._id.toString() === productId);
 
     if (!existingProduct) {
       throw new Error("محصول مورد نظر در سبد خرید یافت نشد.");
@@ -293,14 +293,14 @@ const updateCartItem = asyncHandler(async (req, res) => {
 
     if (quantity === 0) {
       // تعداد صفر است، محصول را از سبد خرید حذف کنید
-      existingCart.products = products.filter(
-        (product) => product.product.toString() !== productId
-      );
+      existingCart.products = products.filter((product) => product._id.toString() !== productId);
     } else {
       // تعداد غیر صفر است، تعداد محصول را به روز کنید
-      existingProduct.count = quantity;
+      existingCart.products = products.map(item => (item._id.toString() === productId) ? { ...item, count: quantity } : item)
+      // existingProduct.count = quantity;
     }
 
+    console.log("existingCartAfteeeerr => ", existingCart);
     // محاسبه مجموع قیمت سبد خرید پس از تغییرات
     let cartTotal = 0;
     for (let i = 0; i < existingCart.products.length; i++) {
@@ -318,6 +318,7 @@ const updateCartItem = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
 
 const getUserCart = asyncHandler(async (req, res) => {
   const { _id } = req.user;

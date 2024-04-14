@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom'
 interface blogViewModel {
   title: string,
   description: String,
-  images: string[]
+  images: string[],
+  _id:string
 }
 
 
@@ -44,7 +45,7 @@ export default function MainProductsDiscount() {
           </div>
           <div className='blog-content-wrap grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 md:gap-5'>
             {allBlogs.map((blog) => (
-              <div className='blog-item group'>
+              <div key={blog._id} className='blog-item group'>
                 <div className='relative w-[400px] h-[120px] sm:h-auto sm:w-auto sm:mb-4 rounded-2xl rondede-bl-4xl overflow-hidden'>
                   <img src={blog.images[0]} alt="blog" className='h-full w-full sm:h-auto object-cover' />
                   <div className='blog-icon-holder'>

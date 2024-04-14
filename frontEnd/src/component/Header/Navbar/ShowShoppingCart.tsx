@@ -18,7 +18,7 @@ export default function ShowShoppingCart() {
             </div>
             <div className="border-b border-b-gray-300 dark:border-b-white/10 pb-1 divide-y divide-gray-100 dark:divide-white/10 child:py-5">
                 {products.map((itemBasket) => (
-                    <div className="flex gap-x-2.5">
+                    <div className="flex gap-x-2.5" key={itemBasket._id}>
                         <img src={itemBasket.product.images[0]} className="w-30 h-30 rounded-xl" alt="vans" />
                         <div className="flex flex-col justify-around">
                             <h4 className="font-DanaMedium text-zinc-700 dark:text-white text-base line-clamp-2"> {itemBasket.product.title}</h4>

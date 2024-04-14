@@ -62,7 +62,7 @@ export default function SwiperProduct() {
         className="mySwiper "
       >
         {!!latestProduct?.length && latestProduct.map((product: ProductContextViewModel) => (
-          <SwiperSlide  className='h-full  dark:bg-zinc-700 p-0'>
+          <SwiperSlide key={product._id} className='h-full  dark:bg-zinc-700 p-0'>
             <ProductCard key={product._id} {...product} />
           </SwiperSlide>
         ))}

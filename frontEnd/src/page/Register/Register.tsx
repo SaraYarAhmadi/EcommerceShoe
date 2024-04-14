@@ -8,11 +8,16 @@ import Button from '../../component/CustomButton/CustomButton';
 import { useFormik } from 'formik';
 import registerSchema from '../../validaitons/registerFormValidaitor';
 import UserContext from '../../context/userContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 const Register = memo(() => {
     const userContext = useContext(UserContext);
     const [formSubmitted, setFormSubmitted] = useState(false);
+    const navigate = useNavigate()
+    const swal = withReactContent(Swal)
+
 
     const form = useFormik({
         initialValues: { userName: '', email: '', password: '', phone: '' },
@@ -35,9 +40,25 @@ const Register = memo(() => {
                 .then((result) => {
                     console.log('resultttttttttttt', result);
 
-                    if (result?._id) userContext.login(result);
-                    else {
+                    if (result?._id) {
+                        userContext.login(result);
+                        swal.fire({
+                            title: "ثبت نام با موفقیت انجام شد",
+                            icon: "success",
+                            confirmButtonText: "ورود به پنل کاربری",
+                            timer: 3000,
+                            timerProgressBar: true,
+                        }).then((value) => {
+                            navigate("/")
+                        })
+                    } else {
                         alert(result?.message);
+                        swal.fire({
+                            title: result?.message,
+                            text: "اطلاعات کاربری را به درستی وارد نمایید",
+                            icon: "error",
+                            confirmButtonText: "تلاش دوباره",
+                        })
                     }
                 });
 

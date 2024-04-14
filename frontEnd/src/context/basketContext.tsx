@@ -6,7 +6,8 @@ export interface BasketContextViweModel {
     cartTotal: number,
     orderby: string,
     count: number,
-    products: ProductContextViewModel[]
+    products: ProductContextViewModel[],
+    updateBasketProducts: (newProducts: ProductContextViewModel[]) => void,
 
 }
 
@@ -15,6 +16,8 @@ export const initialProductBasket: BasketContextViweModel = {
     cartTotal: 0,
     orderby: "",
     count: 0,
-    products: []
+    products: [],
+    updateBasketProducts: (newProducts: ProductContextViewModel[]) => { },
 }
-export const BasketContext = createContext<BasketContextViweModel>(initialProductBasket)
+
+export const BasketContext = createContext<BasketContextViweModel>(initialProductBasket);
