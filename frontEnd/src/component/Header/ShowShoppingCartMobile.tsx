@@ -24,7 +24,7 @@ export default function ShowShoppingCartMobile({ closeMobileCart }: ShowShopping
             {/* cart body */}
 
             {products.map((itemBasket) => (
-                <div className="child:pb-5 child:mb-5">
+                <div className="child:pb-5 child:mb-5" key={itemBasket._id}>
                     <div className="flex gap-x-1 border-b border-b-gray-300 dark:border-b-white/10">
                         <img src={itemBasket.product.images[0]} className="w-30 h-30 rounded-xl" alt="vans" />
                         <div className="flex flex-col justify-around">

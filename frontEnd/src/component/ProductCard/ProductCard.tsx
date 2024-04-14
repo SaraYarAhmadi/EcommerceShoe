@@ -32,7 +32,7 @@ export default function ProductCard({
                     <div className='absolute inset-0 bottom-0 w-full h-full hidden md:flex text-center items-center justify-center invisible opacity-0 group-hover:visible group-hover:opacity-100 bg-gradient-to-r from-orange-200/80 to-orange-300/80 transition-all delay-75 '>
                         <div className='prd-size-list grid items-center justify-center gap-y-2 text-gray-800 text-xs lg:text-xl transition-all duration-300 ease-in-out'>
                             {size.map(item => (
-                                <span className='prd-size-item'>{item}</span>
+                                <span key={item} className='prd-size-item'>{item}</span>
                             ))}
                             <strong className='prd-size-item text-sm'> سایز </strong>
                         </div>

@@ -50,7 +50,7 @@ export default function ProductInfo() {
   const userContext = useContext(UserContext)
   const basketContext = useContext(BasketContext);
   const { userInfos } = userContext;
-  console.log("BasketContextBasketContext", basketContext);
+  // console.log("BasketContextBasketContext", basketContext);
 
   useEffect(() => {
     fetch(`http://localhost:7500/api/products/${params.productInfo}`)
@@ -80,7 +80,9 @@ export default function ProductInfo() {
         body: JSON.stringify(requestData),
       })
         .then((res) => res.json())
-        .then((data) => console.log("dataBaskettttt", data));
+        .then((data) => {
+          basketContext.updateBasketProducts(data?.products ? data?.products : [])
+        });
 
     }
   }
@@ -107,8 +109,6 @@ export default function ProductInfo() {
     };
     setProductBasket(newProductBasket);
   };
-
-
 
   return (
     <main className="mb-12 md:mb-36 w-[90%] mx-auto pt-6 lg:pt-24">
