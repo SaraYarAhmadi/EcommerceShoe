@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { CiStar } from 'react-icons/ci'
 import { HiOutlineShoppingCart } from 'react-icons/hi'
 import { ProductViewModel } from '../../page/Category/Category'
@@ -26,7 +26,7 @@ export default function ProductCard({
 
     return (
         <div className='group p-2 md:p-5 bg-white dark:bg-zinc-700 shadow-xl rounded-2xl border-2 border-gray-200 dark:border-gray-700'>
-            <div className='relative w-100 h-[340px] mb-2 md:mb-5 rounded-t-lg overflow-hidden'>
+            <div className='relative w-100 h-[340px] mb-2 md:mb-5 rounded-t-lg overflow-hidden' >
                 <img src={images[0]} alt="css" className='w-100 h-full mx-auto md:w-auto' />
                 {size.length > 1 &&
                     <div className='absolute inset-0 bottom-0 w-full h-full hidden md:flex text-center items-center justify-center invisible opacity-0 group-hover:visible group-hover:opacity-100 bg-gradient-to-r from-orange-200/80 to-orange-300/80 transition-all delay-75 '>

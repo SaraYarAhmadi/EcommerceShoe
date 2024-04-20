@@ -49,11 +49,11 @@ export default function ProductInfo() {
   const { poroductSize, productColor, productCount } = productBasket;
   const userContext = useContext(UserContext)
   const basketContext = useContext(BasketContext);
-  const { userInfos } = userContext;
+  const { userInfos, isLoggedIn } = userContext;
   // console.log("BasketContextBasketContext", basketContext);
 
   useEffect(() => {
-    fetch(`http://localhost:7500/api/products/${params.productInfo}`)
+    fetch(`https://sarayarahmadi-fullstack-ecommerceshoe.liara.run/api/products/${params.productInfo}`)
       .then(res => res.json())
       .then(data => setProduct(data))
   }, [])
@@ -71,17 +71,17 @@ export default function ProductInfo() {
       ]
     };
     if (productColor && poroductSize && productCount > 0) {
-      fetch('http://localhost:7500/api/user/cart', {
+      fetch('http://localhost:3000/api/user/cart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${userInfos.refreshToken}` // اضافه کردن توکن به هدر درخواست
+          'Authorization': `Bearer ${userInfos.token}` // اضافه کردن توکن به هدر درخواست
         },
         body: JSON.stringify(requestData),
       })
         .then((res) => res.json())
         .then((data) => {
-          basketContext.updateBasketProducts(data?.products ? data?.products : [])
+          basketContext.updateBasketProducts(data?.products?.length ? data.products : [])
         });
 
     }
@@ -227,7 +227,7 @@ export default function ProductInfo() {
                   <span className="font-Dana text-sm mx-2">تومان</span>
                 </div>
               </div>
-              <Link to="/Product-cart/:productCart" className="flex items-center justify-center w-[144px] h-14 bg-sky-500 tracking-tighter hover:bg-sky-600  rounded-xl text-white" onClick={ProductOrderRegistration} >ثبت سفارش</Link>
+              <Link to={isLoggedIn ? "/Product-cart/:productCart" : "/login"} className="flex items-center justify-center w-[144px] h-14 bg-sky-500 tracking-tighter hover:bg-sky-600  rounded-xl text-white" onClick={ProductOrderRegistration}>ثبت سفارش</Link>
             </div>
 
           </div>

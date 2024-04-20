@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import Breadcrumb from '../../component/Breadcrumb/Breadcrumb'
 import { BasketContext, BasketContextViweModel } from '../../context/basketContext';
 import { MdOutlineDeleteOutline } from "react-icons/md";
@@ -33,18 +33,18 @@ export default function ProductCart() {
             quantity: count,
         };
 
-        fetch('http://localhost:7500/api/user/cart/update-product', {
+        fetch('http://localhost:3000/api/user/cart/update-product', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${userInfos.refreshToken}` // اضافه کردن توکن به هدر درخواست
+                'Authorization': `Bearer ${userInfos.token}` // اضافه کردن توکن به هدر درخواست
             },
             body: JSON.stringify(updateProductCartItemDataModel),
         })
             .then((res) => res.json())
             .then((data) => {
                 console.log("update", data)
-                basketContext.updateBasketProducts(data?.products ? data?.products : [])
+                basketContext.updateBasketProducts(data?.products?.length ? data?.products : [])
             });
 
     }

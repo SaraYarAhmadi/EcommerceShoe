@@ -40,7 +40,7 @@ export default function Aside({ getFiltersValue }: Asidprops) {
   const { searchValue, isMale, isFemale, shoeSizesFilterList, priceFilterList, gender } = filtersValue;
 
   const getAllSize = () => {
-    fetch("http://localhost:7500/api/size/")
+    fetch("https://sarayarahmadi-fullstack-ecommerceshoe.liara.run/api/size/")
       .then(res => res.json())
       .then(data => setAllSize(data))
   }

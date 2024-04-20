@@ -29,7 +29,7 @@ const Register = memo(() => {
                 email,
                 password,
             };
-            fetch('http://localhost:7500/api/user/register', {
+            fetch('http://localhost:3000/api/user/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ const Register = memo(() => {
             })
                 .then((res) => res.json())
                 .then((result) => {
-                    console.log('resultttttttttttt', result);
+                    console.log('resulttttttttttttTokenRegister', result);
 
                     if (result?._id) {
                         userContext.login(result);

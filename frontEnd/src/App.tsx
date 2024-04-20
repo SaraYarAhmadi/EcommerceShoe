@@ -1,14 +1,15 @@
 
+import React, { useEffect, useState, useCallback } from 'react';
 import Header from './component/Header/Header';
 import { useRoutes } from 'react-router-dom';
 import routes from './routes';
 import './App.css';
 import Footer from './component/Footer/Footer';
 import UserContext, { UserInfosViewModel } from './context/userContext';
-import { useEffect, useState, useCallback } from 'react';
 import { ProductContext, ProductContextViewModel } from './context/productContex';
 import { BasketContext, BasketContextViweModel, initialProductBasket } from './context/basketContext';
 import Loading from './component/Loading/Loading';
+import ScrollToTop from './HOC/ScrollToTop';
 
 interface UserDataViewModel {
   isLoggedIn: boolean,
@@ -21,7 +22,7 @@ const userInfoInitialValues: UserInfosViewModel = {
   phone: "",
   email: "",
   password: "",
-  refreshToken: "",
+  token: "",
 };
 
 const userDataResetValue: UserDataViewModel = {
@@ -36,26 +37,23 @@ function App() {
   const [basketProducts, setbasketProducts] = useState<BasketContextViweModel>(initialProductBasket);
   const [refreshTokenData, setRefreshTokenData] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const AUTO_LOGOUT_TIME = 24 * 60 * 60 * 1000;
-
   const getAllProducts = async () => {
-    const res = await fetch('http://localhost:7500/api/products');
+    const res = await fetch(`https://sarayarahmadi-fullstack-ecommerceshoe.liara.run/api/products`);
     const data = await res.json();
+
     setLoading(false);
-
     setAllProducts(data);
-  }
+  };
 
-  const getAllBasketProducts = async (refreshToken: string) => {
+  const getAllBasketProducts = async (token: string) => {
     try {
-      const res = await fetch('http://localhost:7500/api/user/cart', {
+      const res = await fetch(`http://localhost:3000/api/user/cart`, {
         headers: {
-          'Authorization': `Bearer ${refreshToken}` // استفاده از userData.userInfos
+          'Authorization': `Bearer ${token}` // استفاده از userData.userInfos
         }
       });
       const data = await res.json();
-      setbasketProducts(data ? data : { products: [] })
-      console.log("basketdata", data);
+      setbasketProducts(data ? data : { products: [] });
     } catch (error) {
       console.log(error);
     }
@@ -67,12 +65,14 @@ function App() {
   }, [])
 
   const login = useCallback((userInfos: UserInfosViewModel): void => {
-    setUserData((prevUserData) => ({
-      ...prevUserData,
+    const newUserData = {
+      userInfos,
       isLoggedIn: true,
-      userInfos: userInfos,
-    }));
+    };
+
+    setUserData(newUserData);
     const userId = userInfos._id;
+    setRefreshTokenData(userInfos?.token);
     localStorage.setItem('user', JSON.stringify({ userId }));
   }, []);
 
@@ -81,17 +81,16 @@ function App() {
     localStorage.removeItem('user');
   }, []);
 
-  const updateBasketProducts = useCallback((products) => {
-    // setbasketProducts({ ...basketProducts, products });
+  const updateBasketProducts = (products) => {
     if (refreshTokenData) getAllBasketProducts(refreshTokenData)
     else refreshToken()
-  }, []);
+  };
 
   function refreshToken() {
     const user = localStorage.getItem("user");
     const userId = user ? JSON.parse(user)?.userId : '';
     if (userId) {
-      fetch(`http://localhost:7500/api/user/${userId}`)
+      fetch(`https://sarayarahmadi-fullstack-ecommerceshoe.liara.run/api/user/${userId}`)
         .then(res => res.json())
         .then((data) => {
           const { user } = data;
@@ -100,8 +99,8 @@ function App() {
             isLoggedIn: true,
             userInfos: user,
           });
-          setRefreshTokenData(user?.refreshToken)
-          getAllBasketProducts(user?.refreshToken);
+          // setRefreshTokenData(user?.token)
+          getAllBasketProducts(user?.token);
         });
     } else {
     }
@@ -118,6 +117,7 @@ function App() {
       value={{ ...userData, login, logout, }}    >
       <ProductContext.Provider value={allProducts}      >
         <BasketContext.Provider value={{ ...basketProducts, updateBasketProducts }}      >
+          <ScrollToTop />
           {loading ? <Loading /> :
             <>
               <Header />

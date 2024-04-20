@@ -6,7 +6,7 @@ export interface UserInfosViewModel {
   phone: string,
   email: string,
   password: string,
-  refreshToken:string,
+  token:string,
 }
 
 export interface UserContextViewModel {
@@ -24,7 +24,7 @@ const UserContext = createContext<UserContextViewModel>({
     phone: "",
     email: "",
     password: "",
-    refreshToken:"",
+    token:"",
   },
   login: (userInfos: UserInfosViewModel) => { },
   logout: () => { },
