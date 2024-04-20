@@ -12,9 +12,10 @@ import morgan from "morgan";
 import couponRouter from "./routers/couponRoute";
 import sizeRoute from "./routers/sizeRoute";
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 dbConnect();
 const app = express();
+app.use(express.static("public"));
 app.use(morgan("dev"))
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());

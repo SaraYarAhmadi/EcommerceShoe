@@ -11,26 +11,38 @@ import couponModel from "../model/couponModel";
 import uniqid from 'uniqid';
 
 
-
 const createUser = asyncHandler(async (req, res) => {
-  const email = req.body.email;
-  const findUser = await userModel.findOne({ email: email })
+  const { email } = req.body;
+  const findUser = await userModel.findOne({ email });
 
   if (!findUser) {
-    //creatUser
-    const newUser = await userModel.create(req.body)
-    res.json(newUser);
+    // ایجاد کاربر جدید
+    const newUser = await userModel.create(req.body);
+    // ایجاد توکن برای کاربر
+    const token = generateToken(newUser._id);
+
+    res.cookie("refreshToken", token, {
+      httpOnly: true,
+      maxAge: 72 * 60 * 60 * 1000,
+    });
+
+    const userResponse = newUser.toObject(); // تبدیل مدل مانگوس به یک شیء جاوااسکریپت ساده
+    delete userResponse.password; // حذف فیلد رمز عبور از پاسخ
+
+    userResponse.token = token; // افزودن توکن به شیء کاربر
+
+    res.json(userResponse);
   } else {
-    throw new Error("User Already Exists")
+    throw new Error("کاربر قبلاً وجود دارد");
   }
-})
+});
 
 //login User 
 
 const loginUserCtrl = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  const findUser = await userModel.findOne({ email })
-  // console.log(findUser);
+  const findUser = await userModel.findOne({ email });
+
   if (findUser && (await findUser.isPasswordMatched(password))) {
     const refreshToken = generateRefreshToken(findUser?._id);
     const updateuser = await userModel.findByIdAndUpdate(
@@ -45,18 +57,24 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
       maxAge: 72 * 60 * 60 * 1000,
     });
 
-
-    res.json({
-      _id: findUser?._id,
+    const response = {
       userName: findUser?.userName,
       email: findUser?.email,
       phone: findUser?.phone,
+      role: findUser?.role,
+      cart: findUser?.cart,
+      _id: findUser?._id,
+      createdAt: findUser?.createdAt,
+      updatedAt: findUser?.updatedAt,
+      __v: findUser?.__v,
       token: generateToken(findUser?._id),
-    });
+    };
+
+    res.json(response);
   } else {
-    throw new Error("کاربر نامعتبر است")
+    throw new Error("کاربر نامعتبر است");
   }
-})
+});
 
 
 
