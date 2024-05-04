@@ -12,7 +12,7 @@ import ProductCart from "./page/ProductCart/ProductCart";
 const routes =[
     {path:'/' , element:<Home/>},
     {path:'/Product-info/:productInfo' , element:<CourseInfo/>},
-    {path:'/Category-info/category' , element:<Category/>},
+    {path:'/Category-info/category/:categoryName' , element:<Category/>},
     {path:'/Product-cart/:productCart' , element:<ProductCart/>},
     {path:'/Article-info/article' , element:<ArticleInfo/>},
     {path:'/register' , element:<Register/>},

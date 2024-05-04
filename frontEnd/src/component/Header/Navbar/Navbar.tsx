@@ -15,6 +15,9 @@ export default function Navbar({ toggleDarkMode }: NavbarProps) { // todo toggle
         userContext.logout()
     };
 
+
+
+
     return (
         <div className='flex-layout w-full'>
             {/* --nav & logo-- */}
@@ -30,28 +33,31 @@ export default function Navbar({ toggleDarkMode }: NavbarProps) { // todo toggle
                         <Link to="/" className='hover:text-sky-500'>صفحه اصلی</Link>
                     </li>
                     {/* sub menu first */}
+                    <li className="relative group">
+                        <Link to="/Category-info/category/محصولات پیشنهادی-0">  محصولات پیشنهادی </Link>
+                    </li>
                     <li className='relative group'>
-                        <Link to="/Category-info/category"> کفش چرم  </Link>
+                        <Link to="/Category-info/category/کفش-0"> کفش چرم  </Link>
                         <div className='dropdown-menu dropdown-menu top-full w-52'>
-                            <Link to="/Category-info/category">کفش چرم مردانه </Link>
-                            <Link to="/Category-info/category">کفش چرم زنانه </Link>
+                            <Link to="/Category-info/category/کفش-2">کفش چرم مردانه </Link>
+                            <Link to="/Category-info/category/کفش-1">کفش چرم زنانه </Link>
                         </div>
                     </li>
                     <li className="relative group">
-                        <Link to="/Category-info/category">  بوت چرم </Link>
+                        <Link to="/Category-info/category/بوت-0">  بوت چرم </Link>
                         <div className='dropdown-menu top-full w-52'>
-                            <Link to="/Category-info/category"> بوت چرم مردانه </Link>
-                            <Link to="/Category-info/category">  بوت چرم زنانه</Link>
+                            <Link to="/Category-info/category/بوت-2"> بوت چرم مردانه </Link>
+                            <Link to="/Category-info/category/بوت-1">  بوت چرم زنانه</Link>
                         </div>
                     </li>
                     <li className="relative group">
-                        <Link to="/Category-info/category">  صندل چرم </Link>
+                        <Link to="/Category-info/category/صندل-0">  صندل چرم </Link>
                     </li>
                     <li>
-                        <Link to="/Category-info/category">کیف چرم</Link>
+                        <Link to="/Category-info/category/کیف-0">کیف چرم</Link>
                     </li>
                     <li>
-                        <Link to="/Category-info/category">ست چرم</Link>
+                        <Link to="/Category-info/category/ست هدیه زنانه و مردانه-0">ست چرم</Link>
                     </li>
                 </ul>
             </nav>
