@@ -71,7 +71,7 @@ export default function ProductInfo() {
       ]
     };
     if (productColor && poroductSize && productCount > 0) {
-      fetch('http://localhost:3000/api/user/cart', {
+      fetch('http://localhost:4000/api/user/cart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

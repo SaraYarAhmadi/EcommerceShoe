@@ -47,7 +47,7 @@ function App() {
 
   const getAllBasketProducts = async (token: string) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/user/cart`, {
+      const res = await fetch(`http://localhost:4000/api/user/cart`, {
         headers: {
           'Authorization': `Bearer ${token}` // استفاده از userData.userInfos
         }

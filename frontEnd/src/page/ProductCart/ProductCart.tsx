@@ -33,7 +33,7 @@ export default function ProductCart() {
             quantity: count,
         };
 
-        fetch('http://localhost:3000/api/user/cart/update-product', {
+        fetch('http://localhost:4000/api/user/cart/update-product', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

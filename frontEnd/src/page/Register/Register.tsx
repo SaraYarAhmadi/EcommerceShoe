@@ -29,7 +29,7 @@ const Register = memo(() => {
                 email,
                 password,
             };
-            fetch('http://localhost:3000/api/user/register', {
+            fetch('http://localhost:4000/api/user/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

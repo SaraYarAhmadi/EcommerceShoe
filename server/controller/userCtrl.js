@@ -57,19 +57,27 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
       maxAge: 72 * 60 * 60 * 1000,
     });
 
+    const findCart = await cartModel.findOne({ orderby: findUser._id });
+    let cart = [];
+    let cartTotal = 0;
+    if (findCart) {
+      cart = findCart.products;
+      cartTotal = findCart.cartTotal;
+    }
+
     const response = {
       userName: findUser?.userName,
       email: findUser?.email,
       phone: findUser?.phone,
       role: findUser?.role,
-      cart: findUser?.cart,
+      cart: cart,
+      cartTotal: cartTotal,
       _id: findUser?._id,
       createdAt: findUser?.createdAt,
       updatedAt: findUser?.updatedAt,
       __v: findUser?.__v,
       token: generateToken(findUser?._id),
     };
-
     res.json(response);
   } else {
     throw new Error("کاربر نامعتبر است");
@@ -246,6 +254,8 @@ const userCart = asyncHandler(async (req, res) => {
         }
       }
 
+
+
       let cartTotal = 0;
       for (let i = 0; i < products.length; i++) {
         cartTotal = cartTotal + products[i].price * products[i].count;
@@ -254,7 +264,7 @@ const userCart = asyncHandler(async (req, res) => {
       existingCart.products = products;
       existingCart.cartTotal = cartTotal;
       await existingCart.save();
-      res.json(existingCart);
+      res.json({ ...existingCart.toObject(), products: existingCart.products, cart: existingCart.toObject() });
     } else {
       // در غیر این صورت، سبد خرید جدید ایجاد کنید و محصولات را اضافه کنید
       let newProducts = [];
@@ -277,7 +287,7 @@ const userCart = asyncHandler(async (req, res) => {
         cartTotal,
         orderby: user._id,
       }).save();
-      res.json(newCart);
+      res.json({ ...newCart.toObject(), products: newCart.products, cart: newCart.toObject() });
     }
   } catch (error) {
     throw new Error(error);
