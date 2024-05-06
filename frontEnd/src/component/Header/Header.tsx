@@ -44,6 +44,9 @@ export default function Header() {
   const closeMobileNav = () => {
     setIsShowMobileNav(false)
   }
+  const closeMobileNavTouchend = () => {
+    setIsShowMobileNav(false)
+  }
 
   const closeMobileCart = (): void => {
     setIsShowMobilCart(false)
@@ -58,11 +61,7 @@ export default function Header() {
       return !Prev
     })
   }
-  const openSUbmenuMobileNav2 = () => {
-    setIsShowSUbmenu2((Prev) => {
-      return !Prev
-    })
-  }
+
   const openSUbmenuMobileNav3 = () => {
     setIsShowSUbmenu3((Prev) => {
       return !Prev
@@ -95,70 +94,65 @@ export default function Header() {
             </div>
             {/* nav menu */}
             <div className="flex items-center  h-10 pr-2.5 mb-4 bg-sky-200/20 text-sky-400 text-lg  rounded-md">
-              <a href="#" className="flex items-center gap-x-2">
-                <AiOutlineHome />
-                صفحه اصلی
-              </a>
+              <Link to="/" className='flex items-center gap-x-2 hover:text-sky-500' onClick={closeMobileNav} ><AiOutlineHome />صفحه اصلی</Link>
             </div>
             <ul className="space-y-6 child:pr-2.5 text-zinc-700 dark:text-white text-base">
               <li >
-                <a href="#" className={`${isShowSUbmenu ? "flex-layout bg-sky-200/20 text-sky-400 text-lg  rounded-md" : "flex-layout"}`} onClick={openSUbmenuMobileNav}>
+                <Link to="/Category-info/category/کفش-0" className={`${isShowSUbmenu ? "flex-layout bg-sky-200/20 text-sky-400 text-lg  rounded-md" : "flex-layout"}`} onClick={openSUbmenuMobileNav}>
                   <span> کفش چرم</span>
                   <div>
                     <HiChevronDown />
                   </div>
-
-                </a>
+                </Link>
                 {/* sub menu */}
                 <div className={`${isShowSUbmenu ? "flex flex-col gap-y-3 text-justify pr-7 mt-3 text-sm text-zinc-600 dark:text-white" : "hidden flex-col gap-y-3 text-justify pr-7 mt-3 text-sm text-zinc-600 dark:text-white"}`}>
-                  <a href="#">کفش چرم مردانه </a>
-                  <a href="#">کفش چرم زنانه </a>
-
+                  <Link to="/Category-info/category/کفش-2" onClick={closeMobileNav}>کفش چرم مردانه </Link>
+                  <Link to="/Category-info/category/کفش-1" onClick={closeMobileNav}>کفش چرم زنانه </Link>
                 </div>
               </li>
               <li >
-                <a href="#" className={`${isShowSUbmenu3 ? "flex-layout bg-sky-200/20 text-sky-400 text-lg  rounded-md" : "flex-layout"}`} onClick={openSUbmenuMobileNav3}>
+                <Link to="/Category-info/category/بوت-0" className={`${isShowSUbmenu3 ? "flex-layout bg-sky-200/20 text-sky-400 text-lg  rounded-md" : "flex-layout"}`} onClick={openSUbmenuMobileNav3}>
                   <span>  بوت چرم</span>
                   <div>
                     <HiChevronDown />
                   </div>
 
-                </a>
+                </Link>
                 {/* sub menu */}
                 <div className={`${isShowSUbmenu3 ? "flex flex-col gap-y-3 text-justify pr-7 mt-3 text-sm text-zinc-600 dark:text-white" : "hidden flex-col gap-y-3 text-justify pr-7 mt-3 text-sm text-zinc-600 dark:text-white"}`}>
-                  <a href="#"> بوت چرم مردانه </a>
-                  <a href="#"> بوت چرم زنانه </a>
+                  <Link to="/Category-info/category/بوت-2" onClick={closeMobileNav}> بوت چرم مردانه </Link>
+                  <Link to="/Category-info/category/بوت-1" onClick={closeMobileNav}> بوت چرم زنانه </Link>
 
                 </div>
               </li>
 
               <li >
-                <a href="#" className="flex-layout" >
+                <Link to="/Category-info/category/صندل-0" className="flex-layout" onClick={closeMobileNav}>
                   صندل چرم
 
-                </a>
+                </Link>
               </li>
               <li >
-                <a href="#" className="flex-layout" >
+                <Link to="/Category-info/category/کیف-0" className="flex-layout" onClick={closeMobileNav}>
                   کیف چرم
 
-                </a>
+                </Link>
               </li>
               <li >
-                <a href="#" className="flex-layout" >
+                <Link to="/Category-info/category/ست هدیه زنانه و مردانه-0" className="flex-layout" onClick={closeMobileNav}>
                   ست چرم
 
-                </a>
+                </Link>
               </li>
-              <li className="flex items-center" >
-                <a href="#" >
+              <li className="flex items-center" onClick={closeMobileNav}>
+                <Link to="*" >
                   درباره ما
-                </a>
+                </Link>
               </li>
-              <li className="flex items-center" >
-                <a href="#" >
+              <li className="flex items-center" onClick={closeMobileNav}>
+                <Link to="*" >
                   ارتباط با ما
-                </a>
+                </Link>
               </li>
             </ul>
 
@@ -179,22 +173,22 @@ export default function Header() {
                   <span>تم روشن</span>
                 </div>
               </div>
-              <a href="#" className='inline-flex gap-x-2 text-base' onClick={showMobileCart}>
+              <Link to="#" className='inline-flex gap-x-2 text-base' onClick={showMobileCart}>
                 <HiOutlineShoppingCart />
                 <span className="tracking-tighter"> سبدخرید </span>
-              </a>
-              <a href="#" className='flex items-center justify-center gap-x-2 text-base' onClick={showMobileCart}>
+              </Link>
+              <Link to="#" className='flex items-center justify-center gap-x-2 text-base' onClick={showMobileCart}>
                 <HiOutlineUserCircle />
-                <div  className="tracking-tighter" onClick={logoutHandler}> خروج از سیستم </div>
-              </a>
+                <div className="tracking-tighter" onClick={logoutHandler}> خروج از سیستم </div>
+              </Link>
             </div>
           </div>
           <div className="text-sky-500 text-5xl shrink-0">
             <GiSonicShoes />
           </div>
-          <a href="#" className='text-zinc-700 dark:text-white' onClick={showMobileCart}>
+          <Link to="#" className='text-zinc-700 dark:text-white' onClick={showMobileCart}>
             <HiOutlineShoppingCart />
-          </a>
+          </Link>
           <div className={`${isShowMobilCart ? "fixed top-0 bottom-0 left-0 flex flex-col w-64 min-h-screen pt-5 px-4 bg-white dark:bg-zinc-700 z-20 transition-all" : "fixed top-0 bottom-0 -left-64 flex flex-col w-64 min-h-screen pt-5 px-4 bg-white dark:bg-zinc-700 z-20 transition-all"}`}>
             <ShowShoppingCartMobile closeMobileCart={closeMobileCart} />
           </div>
