@@ -89,7 +89,7 @@ export default function ProductCart() {
             {/* <!-- Breadcrumb --> */}
             <Breadcrumb links={[
                 { id: 1, title: "خانه", to: "/" },
-                { id: 1, title: "همه محصولات", to: "/Category-info/category" },
+                { id: 1, title: "همه محصولات", to: "/Category-info/category/محصولات پیشنهادی-0" },
                 { id: 3, title: "سبد خرید", to: "/Product-cart/:productCart" }
             ]} />
 

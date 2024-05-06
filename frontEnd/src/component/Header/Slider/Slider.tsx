@@ -51,7 +51,7 @@ export default function Slider() {
             </a>
           </div>
           <div className="text md:pt-6 md:pr-80" data-swiper-parallax="-100">
-            <Link to="/Category-info/category" className="flex items-center justify-center w-28 h-11 bg-sky-500 tracking-tighter hover:bg-sky-600 rounded-xl text-white text-base" >ثبت سفارش</Link>
+            <Link to="/Category-info/category/محصولات پیشنهادی-0" className="flex items-center justify-center w-28 h-11 bg-sky-500 tracking-tighter hover:bg-sky-600 rounded-xl text-white text-base" >ثبت سفارش</Link>
           </div>
         </div>
 
@@ -71,7 +71,7 @@ export default function Slider() {
             </a>
           </div>
           <div className="text md:pt-6 md:pr-80" data-swiper-parallax="-100">
-            <Link to="/Category-info/category" className="flex items-center justify-center w-28 h-11 bg-sky-500 tracking-tighter hover:bg-sky-600 rounded-xl text-white text-base" >ثبت سفارش</Link>
+            <Link to="/Category-info/category/محصولات پیشنهادی-0" className="flex items-center justify-center w-28 h-11 bg-sky-500 tracking-tighter hover:bg-sky-600 rounded-xl text-white text-base" >ثبت سفارش</Link>
           </div>
         </div>
 
@@ -91,7 +91,7 @@ export default function Slider() {
             </a>
           </div>
           <div className="text md:pt-6 md:pr-80" data-swiper-parallax="-100">
-            <Link to="/Category-info/category" className="flex items-center justify-center w-28 h-11 bg-sky-500 tracking-tighter hover:bg-sky-600 rounded-xl text-white text-base" >ثبت سفارش</Link>
+            <Link to="/Category-info/category/محصولات پیشنهادی-0" className="flex items-center justify-center w-28 h-11 bg-sky-500 tracking-tighter hover:bg-sky-600 rounded-xl text-white text-base" >ثبت سفارش</Link>
           </div>
         </div>
 
@@ -111,7 +111,7 @@ export default function Slider() {
             </a>
           </div>
           <div className="text md:pt-6 md:pr-80" data-swiper-parallax="-100">
-            <Link to="/Category-info/category" className="flex items-center justify-center w-28 h-11 bg-sky-500 tracking-tighter hover:bg-sky-600 rounded-xl text-white text-base" >ثبت سفارش</Link>
+            <Link to="/Category-info/category/محصولات پیشنهادی-0" className="flex items-center justify-center w-28 h-11 bg-sky-500 tracking-tighter hover:bg-sky-600 rounded-xl text-white text-base" >ثبت سفارش</Link>
           </div>
         </div>
 

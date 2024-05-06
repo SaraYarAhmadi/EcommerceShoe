@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 export default function MainInstallmentSale() {
   return (
     <section className='products-discount w-[90%] mx-auto pt-6 lg:pt-24'>
-      <Link to='/Category-info/category' className='category-banner-item3 bg-center bg-cover bg-blend-normal flex items-center w-full h-full justify-center border-px rounded-3xl shadow-xl overflow-hidden'>
+      <Link to="/Category-info/category/محصولات پیشنهادی-0" className='category-banner-item3 bg-center bg-cover bg-blend-normal flex items-center w-full h-full justify-center border-px rounded-3xl shadow-xl overflow-hidden'>
         <div className='w-full h-full flex items-center p-6 md:p-10'>
           <div className='flex items-center gap-x-3 md:gap-x-6'>
             <img src="img/shoe/shoeicona.png" alt="icon" className='w-[87px] md:w-[110px]' />

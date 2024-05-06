@@ -117,7 +117,7 @@ export default function ProductInfo() {
       <Breadcrumb
         links={[
           { id: 1, title: "خانه", to: "/" },
-          { id: 2, title: "همه محصولات", to: "/Category-info/category" },
+          { id: 2, title: "همه محصولات", to: "/Category-info/category/محصولات پیشنهادی-0" },
           { id: 3, title, to: "/Product-info/:productInfo" }
         ]} />
 

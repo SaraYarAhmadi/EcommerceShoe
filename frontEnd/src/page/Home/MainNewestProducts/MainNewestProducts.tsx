@@ -20,7 +20,7 @@ export default function MainNewestProducts() {
                             <h4 className="section-title"> جدید ترین محصولات</h4>
                         </div>
                         <div>
-                            <Link to="/Category-info/category" className="section-link-category-box ">
+                            <Link to="/Category-info/category/محصولات پیشنهادی-0" className="section-link-category-box ">
                                 <span className="hidden md:inline-block">
                                     مشاهده محصولات
                                 </span>
