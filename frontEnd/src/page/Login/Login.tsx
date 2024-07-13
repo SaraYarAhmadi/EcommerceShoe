@@ -89,18 +89,18 @@ const Login = memo(() => {
     const { email, password } = values;
     return (
         <div className='flex items-center justify-center min-h-screen'>
-            <div className="w-full xs:w-[500px] px-5 xs:p-0 border border-gray-300 shadow-light dark:shadow-none bg-white dark:bg-gray-800 rounded-2xl ">
+            <div className="w-full xs:w-[500px] px-5 xs:p-0 border border-gray-300 shadow-light dark:shadow-none bg-white dark:bg-gray-800 rounded-2xl md:mt-24">
                 {/* <!--Logo --> */}
-                <div className="flex items-center justify-center gap-x-2.5 mb-7 sm:mb-8 pt-7 border-b border-b-gray-200 dark:border-b-gray-700">
+                <div className="flex items-center justify-center gap-x-2.5 mb-7 pt-7 md:mb-1 md:pt-1 border-b border-b-gray-200 dark:border-b-gray-700">
                     <div className='flex items-center text-sky-500 text-8xl shrink-0'>
                         <GiSonicShoes />
                     </div>
                 </div>
                 {/* <!-- Page Body --> */}
-                <div className="relative p-7 sm:px-8 sm:py-9 bg-white dark:bg-gray-800 shadow-light dark:shadow-none rounded-xl">
+                <div className="relative p-7 sm:px-8 bg-white dark:bg-gray-800 shadow-light dark:shadow-none rounded-xl">
                     {/* <!-- Step 1 - Phone Number Inputs --> */}
                     <div className="user-data">
-                        <div className="text-center mb-7 sm:mb-9">
+                        <div className="text-center mb-7">
                             <h2 className="font-morabbaMedium text-zinc-700 dark:text-white text-3xl mb-2 sm:mb-5"> ورود </h2>
                             <span className="help-alert font-danaLight text-lg text-slate-500 dark:text-gray-500">
                                 حساب کاربری ندارید؟

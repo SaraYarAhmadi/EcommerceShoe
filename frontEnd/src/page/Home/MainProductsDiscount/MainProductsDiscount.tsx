@@ -16,7 +16,7 @@ export default function MainProductsDiscount() {
   const [allBlogs, setAllBlogs] = useState<blogViewModel[]>([])
 
   const getAllBlogs = async () => {
-    const res = await fetch("https://sarayarahmadi-fullstack-ecommerceshoe.liara.run/api/blog/");
+    const res = await fetch("http://localhost:4000/api/blog/");
     const data = await res.json()
     setAllBlogs(data)
   }

@@ -49,7 +49,7 @@ export default function Aside({ getFiltersValue }: Asidprops) {
   const { categoryName } = useParams();
   const paramsValue: string = categoryName ? categoryName.split('-')[0] : initialFilterByParamsValues.category;
   const getAllSize = () => {
-    fetch("https://sarayarahmadi-fullstack-ecommerceshoe.liara.run/api/size/")
+    fetch("http://localhost:4000/api/size/")
       .then(res => res.json())
       .then(data => setAllSize(data))
   }
@@ -212,6 +212,33 @@ export default function Aside({ getFiltersValue }: Asidprops) {
                 </ul>
               </div>
             </div>
+            <div className="flex flex-wrap gap-2 mt-3 overflow-hidden bg-white shadow-lg rounded-2xl dark:text-white dark:bg-gray-800 dark:border border-gray-700">
+  <div className="py-2 px-4 text-base font-DanaDemiBold w-full text-zinc-700 dark:text-white dark:bg-gray-800 dark:border border-gray-700">
+    دسته‌بندی محصولات
+  </div>
+  <div className="py-4 px-2 w-full">
+    <ul className="flex flex-wrap w-full text-sm font-medium text-gray-900 bg-white dark:bg-gray-700 dark:text-white">
+      {categories?.map((categoryName) => (
+        <li className="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" key={categoryName}>
+          <div className="flex items-center px-3">
+            <input
+              id={categoryName}
+              type="checkbox"
+              checked={categoryFilterList.some((item) => item === categoryName)}
+              onChange={() => categoryNameFilterChangeHandler(categoryName)}
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+            />
+            <label
+              htmlFor={categoryName}
+              className="py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              {categoryName}
+            </label>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
 
             {(paramsValue && paramsValue !== 'کیف' && paramsValue !== 'ست هدیه زنانه و مردانه') && <div className=" gap-5 mt-3 overflow-hidden lg:grid bg-white shadow-lg rounded-2xl dark:text-white dark:bg-gray-800 dark:border border-gray-700 ">
               <div className="py-2 text-base  font-DanaDemiBold relative w-full inline-block text-zinc-700 dark:text-white dark:bg-gray-800 dark:border border-gray-700 pr-4 z-10 bg-white shadow-xl">سایز</div>

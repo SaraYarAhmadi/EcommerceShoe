@@ -71,7 +71,7 @@ export default function Header() {
   return (
     <>
       {/* header */}
-      <header className='fixed right-0 left-0 top-9 w-[98%] lg:w-[90%] h-24 hidden md:flex-layout bg-gray-200 dark:bg-slate-900 mx-auto px-5 lg:px-10 pl-4 py-5 rounded-3xl z-40'>
+      <header className='fixed right-0 left-0 top-2 w-[98%] lg:w-[90%] h-24 hidden md:flex-layout bg-gray-200 dark:bg-slate-900 mx-auto px-5 lg:px-10 pl-4 py-5 rounded-3xl z-40'>
         <Navbar toggleDarkMode={toggleDarkMode} />
       </header>
 

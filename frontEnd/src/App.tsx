@@ -38,7 +38,7 @@ function App() {
   const [refreshTokenData, setRefreshTokenData] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const getAllProducts = async () => {
-    const res = await fetch(`https://sarayarahmadi-fullstack-ecommerceshoe.liara.run/api/products`);
+    const res = await fetch(`http://localhost:4000/api/products`);
     const data = await res.json();
 
     setLoading(false);
@@ -90,7 +90,7 @@ function App() {
     const user = localStorage.getItem("user");
     const userId = user ? JSON.parse(user)?.userId : '';
     if (userId) {
-      fetch(`https://sarayarahmadi-fullstack-ecommerceshoe.liara.run/api/user/${userId}`)
+      fetch(`http://localhost:4000/api/user/${userId}`)
         .then(res => res.json())
         .then((data) => {
           const { user } = data;

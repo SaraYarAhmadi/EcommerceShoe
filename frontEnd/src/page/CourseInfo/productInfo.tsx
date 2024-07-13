@@ -53,7 +53,7 @@ export default function ProductInfo() {
   // console.log("BasketContextBasketContext", basketContext);
 
   useEffect(() => {
-    fetch(`https://sarayarahmadi-fullstack-ecommerceshoe.liara.run/api/products/${params.productInfo}`)
+    fetch(`http://localhost:4000/api/products/${params.productInfo}`)
       .then(res => res.json())
       .then(data => setProduct(data))
   }, [])
