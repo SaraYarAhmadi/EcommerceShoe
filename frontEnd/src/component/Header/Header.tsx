@@ -23,6 +23,7 @@ export default function Header() {
   const userContext: UserContextViewModel = useContext(UserContext)
 
   const logoutHandler = () => {
+    setIsShowMobileNav(false)
     userContext.logout()
   }
 
@@ -158,11 +159,32 @@ export default function Header() {
 
             {/* nav footer */}
             <div className="flex flex-col items-start gap-y-6 text-sky-500 py-8 mt-8 border-t-2 border-t-gray-300 dark:border-t-white/10">
-              {userContext.isLoggedIn ? (<Link to="#" className="inline-flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
+              {/* {userContext.isLoggedIn ? (<Link to="#" className="inline-flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
                 <span className="tracking-tighter"> {userContext.userInfos.userName}</span>
               </Link>) : (<Link to="/login" className="inline-flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base" >
                 <span className="tracking-tighter"> ورود /  ثبت‌نام </span>
-              </Link>)}
+              </Link>)} */}
+
+              {
+                userContext.isLoggedIn ? (
+                  <>
+                    <Link to="#" className="inline-flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
+                      <span className="tracking-tighter"> {userContext.userInfos.userName}</span>
+                    </Link>
+                    <Link to="#" className='flex items-center justify-center gap-x-2 text-base' onClick={logoutHandler}>
+                      <HiOutlineUserCircle />
+                      <div className="tracking-tighter"> خروج از سیستم </div>
+                    </Link>
+                  </>
+
+                ) :
+                  (<Link to="/login" className="inline-flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base" onClick={closeMobileNav}>
+                    <span className="tracking-tighter"> ورود /  ثبت‌نام </span>
+                  </Link>)
+              }
+
+
+
               <div className='inline-block cursor-pointer' onClick={toggleDarkMode}>
                 <div className='flex items-center gap-x-2 dark:hidden text-base'>
                   <BsMoon />
@@ -177,10 +199,8 @@ export default function Header() {
                 <HiOutlineShoppingCart />
                 <span className="tracking-tighter"> سبدخرید </span>
               </Link>
-              <Link to="#" className='flex items-center justify-center gap-x-2 text-base' onClick={showMobileCart}>
-                <HiOutlineUserCircle />
-                <div className="tracking-tighter" onClick={logoutHandler}> خروج از سیستم </div>
-              </Link>
+
+
             </div>
           </div>
           <div className="text-sky-500 text-5xl shrink-0">

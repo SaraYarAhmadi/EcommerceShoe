@@ -20,7 +20,7 @@ export default function Footer() {
           </div>
           <div className="mt-10 md:mt-[26px] lg:w-[50%]">
             <h4 className="font-DanaDemiBold text-lg text-white my-3 md:ml-10"> دسترسی سریع</h4>
-            <div className="grid grid-cols-2 gap-y-2 gap-x-10 md:gap-x-16 md:px-24">
+            <div className="grid sm:grid-cols-3 md:grid-cols-2 justify-center gap-y-2 gap-x-10 md:gap-x-16 md:px-24">
               <a href="#" className="flex items-center gap-x-2 md:gap-x-3 md:text-xl hover:text-sky-300 transition-colors ">
                 <span className="inline-block w-2 md:w-2.5 h-1 bg-current rounded-full"></span>
                 حریم خصوصی
@@ -48,7 +48,7 @@ export default function Footer() {
             </div>
           </div>
           <div className="w-full flex flex-wrap items-center justify-between mt-10 md:mt-4">
-            <div className="md:text-xl mb-6 md:mb-4 lg-w-[50%]">
+            <div className="md:text-xl mb-6 md:mb-4 md:w-[50%]">
               <span className="flex items-center gap-x-2 md:gap-x-3 mb-4 md:mb-5">
                 <LuMapPin />تبریز - خیابان ارک جدید- نرسیده به مقصودیه-ساختمان امین
               </span>
@@ -64,16 +64,16 @@ export default function Footer() {
                 </div>
               </div>
             </div>
-            <div className="flex items-center justify-between gap-x-1.5 md:gap-x-6 ltr-text font-DanaMedium md:text-xl md:px-48 md:mb-8">
-              <a href="#" className="flex flex-grow justify-center items-center gap-x-2 h-12 border border-sky-200 text-sky-400 rounded-xl p-2 md:p-4">
+            <div className="flex items-center justify-center  gap-x-1.5 md:gap-x-4 ltr-text font-DanaMedium md:text-xl md:mb-8 md:w-[50%]">
+              <a href="#" className="flex justify-center items-center gap-x-2 h-12 border border-sky-200 text-sky-400 rounded-xl p-2">
                 @shoe_fh
-                <span className=' md:h-6 text-base md:text-2xl flex items-center justify-center'>
+                <span className=' md:h-6 text-base md:text-xl flex items-center justify-center'>
                   <FaInstagram />
                 </span>
               </a>
-              <a href="#" className="flex flex-grow justify-center items-center gap-x-2 h-12 p-2 md:p-4 text-zinc-700 rounded-xl bg-gradient-to-r from-orange-200 to-orange-300">
+              <a href="#" className="flex justify-center items-center gap-x-2 h-12 p-2 text-zinc-700 rounded-xl bg-gradient-to-r from-orange-200 to-orange-300">
                 @shoe_mfm
-                <span className=' md:h-6 text-base md:text-2xl flex items-center justify-center'>
+                <span className=' md:h-6 text-base md:text-xl flex items-center justify-center'>
                   <TbBrandTelegram />
                 </span>
               </a>

@@ -27,7 +27,7 @@ const Login = memo(() => {
             };
 
             try {
-                const response = await fetch("http://localhost:4000/api/user/login", {
+                const response = await fetch("http://localhost:3000/api/user/login", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -40,7 +40,6 @@ const Login = memo(() => {
                     throw new Error(errorText);
                 }
                 const result = await response.json();
-                console.log("tokenforlogin", result);
                 userContext.login(result);
                 swal.fire({
                     title: "لاگین با موفقیت انجام شد",

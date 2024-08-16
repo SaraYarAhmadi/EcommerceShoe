@@ -50,7 +50,6 @@ export default function Categories() {
       gender: +categoryNamesList[1]
     } : initialFilterByParamsValues;
 
-    console.log("newfilterByParams", newfilterByParams);
     return newfilterByParams;
   };
 
@@ -79,13 +78,8 @@ export default function Categories() {
       productContex.filter(item => item.category == paramCategory);
 
     const byGenderParamFilter = paramGender == Gender.All ? byCategoryParamFilter : byCategoryParamFilter.filter(item => item.gender == paramGender);
-
-    // const newfilterByParams = categoryName ? categoryName.split('-') : initialFilterByParamsValues;
     setAllProduct(byGenderParamFilter)
     setFilterByParams(getfilterByParams(categoryName))
-    // console.log("newfilterByParams", newfilterByParams);
-
-    // setFilterByParams(newfilterByParams)
   }, [categoryName])
 
   function getBreadCrumbSlink() {

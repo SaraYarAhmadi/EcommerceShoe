@@ -1,15 +1,37 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
-import { BasketContext, BasketContextViweModel } from '../../context/basketContext';
+import { ProductContextViewModel } from 'src/context/productContex';
 
 interface ShowShoppingCartMobileProps {
     closeMobileCart?: () => void
 }
 
 export default function ShowShoppingCartMobile({ closeMobileCart }: ShowShoppingCartMobileProps) {
+    const [cart, setCart] = useState<ProductContextViewModel[]>([]);
+    const [totalPrice, setTotalPrice] = useState(0);
 
-    const basketContext = useContext(BasketContext)
-    const { products } = basketContext;
+    useEffect(() => {
+        const localCart = localStorage.getItem("cart");
+        const cart = localCart ? JSON.parse(localCart) : [];
+        setCart(cart);
+    }, []);
+
+
+    useEffect(calcTotalPrice, [cart]);
+
+    function calcTotalPrice(updatedCart?: ProductContextViewModel[]) {
+        let price = 0;
+
+        if (cart.length) {
+            price = cart.reduce(
+                (prev, current) => prev + current.price * current.count,
+                0
+            );
+            setTotalPrice(price);
+        }
+        setTotalPrice(price);
+    }
+
 
     return (
         <>
@@ -23,12 +45,12 @@ export default function ShowShoppingCartMobile({ closeMobileCart }: ShowShopping
             </div>
             {/* cart body */}
 
-            {products.map((itemBasket) => (
+            {cart.map((itemBasket) => (
                 <div className="child:pb-5 child:mb-5" key={itemBasket._id}>
                     <div className="flex gap-x-1 border-b border-b-gray-300 dark:border-b-white/10">
-                        <img src={itemBasket.product.images[0]} className="w-30 h-30 rounded-xl" alt="vans" />
+                        <img src={itemBasket.images[0]} className="w-30 h-30 rounded-xl" alt="vans" />
                         <div className="flex flex-col justify-around">
-                            <h4 className="font-DanaMedium text-zinc-700 dark:text-white text-sm line-clamp-2"> {itemBasket.product.title} </h4>
+                            <h4 className="font-DanaMedium text-zinc-700 dark:text-white text-sm line-clamp-2"> {itemBasket.title} </h4>
                             <div className=" text-zinc-700 dark:text-white text-xs font-DanaDemiBold">
                                 {itemBasket.price}
                                 <span className="font-DanaMedium text-xs">تومان</span>
@@ -46,8 +68,9 @@ export default function ShowShoppingCartMobile({ closeMobileCart }: ShowShopping
                 <div>
                     <span className="font-DanaMedium text-gray-300 tracking-tighter text-sm"> مبلغ قابل  پرداخت </span>
                     <div className=" text-zinc-700 dark:text-white font-DanaDemiBold text-base">
-                        {basketContext.cartTotal}
-                        <span className="font-Dana ">تومان</span>
+                        <span className="woocommerce-Price-amount amount">
+                            {totalPrice.toLocaleString()} تومان &nbsp;
+                        </span>
                     </div>
                 </div>
 

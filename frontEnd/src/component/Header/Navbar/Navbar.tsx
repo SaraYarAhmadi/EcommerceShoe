@@ -5,12 +5,13 @@ import { HiOutlineShoppingCart, HiOutlineUserCircle } from 'react-icons/hi'
 import UserContext, { UserContextViewModel } from '../../../context/userContext'
 import { Link } from 'react-router-dom'
 import ShowShoppingCart from './ShowShoppingCart'
+import ShowDetailsUser from './ShowDetailsUser'
 interface NavbarProps {
     toggleDarkMode: () => void;
 }
 
 export default function Navbar({ toggleDarkMode }: NavbarProps) { // todo toggleDarkMode check name
-    const userContext: UserContextViewModel = useContext(UserContext)
+    const userContext: UserContextViewModel = useContext(UserContext) 
     const logoutHandler = () => {
         userContext.logout()
     };
@@ -63,21 +64,6 @@ export default function Navbar({ toggleDarkMode }: NavbarProps) { // todo toggle
             </nav>
             {/* icons & search box   */}
             <div className='flex gap-x-5 lg:gap-9 items-center text-xl font-Dana text-gray-500 '>
-                {/* search box */}
-                <div className='hidden xl:flex items-center'>
-                    <div className="relative hidden md:block">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                            </svg>
-                            <span className="sr-only">Search icon</span>
-                        </div>
-                        <input type="text" id="search-navbar" className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="...جستجو" />
-                    </div>
-                </div>
-                <div className="flex xl:hidden items-center py-4 dark:text-white cursor-pointer text-xl">
-                    <BsSearch />
-                </div>
                 {/* icons */}
                 <div className='flex-layout gap-x-4 lg:gap-x-5 text-2xl'>
                     {/* cart */}
@@ -101,7 +87,7 @@ export default function Navbar({ toggleDarkMode }: NavbarProps) { // todo toggle
                     {/* login */}
                     {
                         userContext.isLoggedIn ? (<Link to="#" className="relative group hidden xl:flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
-                            <span className="tracking-tighter"> {userContext.userInfos.userName}</span>
+                            <span className="tracking-tighter truncate"> {userContext.userInfos.userName}</span>
                             <div className='dropdown-menu -left-5 top-full w-40'>
                                 <a href="#" onClick={logoutHandler}> خروج از سیستم </a>
                             </div>
@@ -112,9 +98,11 @@ export default function Navbar({ toggleDarkMode }: NavbarProps) { // todo toggle
                     }
                     <div className='relative group text-sky-400 text-3xl xl:hidden'>
                         <HiOutlineUserCircle />
+                        <ShowDetailsUser logoutHandler={logoutHandler} />
+{/*                         
                         <div className='dropdown-menu -left-16 top-10 w-40 '>
                             <a href="#" onClick={logoutHandler}> خروج از سیستم </a>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

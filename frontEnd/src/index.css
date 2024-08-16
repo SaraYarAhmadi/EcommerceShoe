@@ -241,6 +241,12 @@
         transform-origin: top;
         ;
     }
+    .truncate{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 70px;
+    }
 
     .home-page-category-box {
         @apply overflow-auto flex flex-col justify-between bg-white border-2 border-solid box-border rounded-xl w-full p-8 dark:bg-zinc-800

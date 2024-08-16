@@ -4,11 +4,12 @@ import { CiStar } from "react-icons/ci";
 import MainProductsServices from "../Home/MainProductsServices/MainProductsServices";
 import UserContext from "../../context/userContext";
 import { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { ProductContextViewModel } from "../../context/productContex";
-import { BasketContext } from "../../context/basketContext";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
-const productInitialValue: ProductContextViewModel = {
+export const productInitialValue: ProductContextViewModel = {
   _id: "",
   title: "",
   description: "",
@@ -43,49 +44,57 @@ const initialProductBasket: ProductBasketViewModel = {
 
 export default function ProductInfo() {
   const [product, setProduct] = useState<ProductContextViewModel>(productInitialValue)
+  const navigate = useNavigate()
   const { title, images, category, price, size, color, _id } = product
   const params = useParams()
   const [productBasket, setProductBasket] = useState<ProductBasketViewModel>(initialProductBasket);
   const { poroductSize, productColor, productCount } = productBasket;
   const userContext = useContext(UserContext)
-  const basketContext = useContext(BasketContext);
   const { userInfos, isLoggedIn } = userContext;
-  // console.log("BasketContextBasketContext", basketContext);
+  const swal = withReactContent(Swal)
+
 
   useEffect(() => {
-    fetch(`http://localhost:4000/api/products/${params.productInfo}`)
+    fetch(`http://localhost:3000/api/products/${params.productInfo}`)
       .then(res => res.json())
       .then(data => setProduct(data))
   }, [])
 
+  const addToCart = () => {
+    const cartString = localStorage.getItem("cart");
+    const cart = cartString ? JSON.parse(cartString) : [];
 
-  const ProductOrderRegistration = () => {
-    const requestData = {
-      cart: [
-        {
-          _id: _id,
+    if (productColor && poroductSize && productCount > 0) {
+      const existingProductIndex = cart.findIndex(item => item._id === params.productInfo);
+
+      if (existingProductIndex !== -1) {
+        cart[existingProductIndex].count += productCount;
+      } else {
+        const cartItem = {
+          _id,
+          title,
+          price,
+          images,
           count: productCount,
           color: productColor,
           size: poroductSize,
-        }
-      ]
-    };
-    if (productColor && poroductSize && productCount > 0) {
-      fetch('http://localhost:4000/api/user/cart', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${userInfos.token}` // اضافه کردن توکن به هدر درخواست
-        },
-        body: JSON.stringify(requestData),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          basketContext.updateBasketProducts(data?.products?.length ? data.products : [])
-        });
+        };
+        cart.push(cartItem);
+      }
 
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      swal.fire({
+        title: "محصول با موفقیت به سبد خرید اضافه شد",
+        icon: "success",
+        confirmButtonText: "مشاهده سبد خرید",
+        timer: 3000,
+        timerProgressBar: true,
+      }).then((value) => {
+        navigate("/Product-cart/:productCart");
+      });
     }
-  }
+  };
 
   const colorSelectionHandler = (color: string) => {
     const newProductBasket: ProductBasketViewModel = {
@@ -227,7 +236,7 @@ export default function ProductInfo() {
                   <span className="font-Dana text-sm mx-2">تومان</span>
                 </div>
               </div>
-              <Link to={isLoggedIn ? "/Product-cart/:productCart" : "/login"} className="flex items-center justify-center w-[144px] h-14 bg-sky-500 tracking-tighter hover:bg-sky-600  rounded-xl text-white" onClick={ProductOrderRegistration}>ثبت سفارش</Link>
+              <Link to={isLoggedIn ? "/Product-cart/:productCart" : "/login"} className="flex items-center justify-center w-[144px] h-14 bg-sky-500 tracking-tighter hover:bg-sky-600  rounded-xl text-white" onClick={addToCart}>ثبت سفارش</Link>
             </div>
 
           </div>
