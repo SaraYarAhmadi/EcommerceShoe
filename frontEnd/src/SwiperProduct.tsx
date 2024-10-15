@@ -35,9 +35,7 @@ export default function SwiperProduct() {
       <Swiper
         slidesPerView={1}
         spaceBetween={30}
-        pagination={{
-          clickable: true,
-        }}
+      
         loop={false}
         navigation={true}
         breakpoints={{
@@ -51,10 +49,6 @@ export default function SwiperProduct() {
           },
           926: {
             slidesPerView: 3,
-            spaceBetween: 30,
-          },
-          1024: {
-            slidesPerView: 4,
             spaceBetween: 30,
           },
         }}

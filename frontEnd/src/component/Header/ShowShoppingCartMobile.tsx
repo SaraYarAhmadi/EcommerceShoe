@@ -16,7 +16,6 @@ export default function ShowShoppingCartMobile({ closeMobileCart }: ShowShopping
         setCart(cart);
     }, []);
 
-
     useEffect(calcTotalPrice, [cart]);
 
     function calcTotalPrice(updatedCart?: ProductContextViewModel[]) {
@@ -32,7 +31,6 @@ export default function ShowShoppingCartMobile({ closeMobileCart }: ShowShopping
         setTotalPrice(price);
     }
 
-
     return (
         <>
             {/* cart */}
@@ -41,10 +39,8 @@ export default function ShowShoppingCartMobile({ closeMobileCart }: ShowShopping
                     <AiOutlineClose />
                 </div>
                 <span className="tracking-tighter text-zinc-700 dark:text-white text-base"> سبدخرید </span>
-
             </div>
             {/* cart body */}
-
             {cart.map((itemBasket) => (
                 <div className="child:pb-5 child:mb-5" key={itemBasket._id}>
                     <div className="flex gap-x-1 border-b border-b-gray-300 dark:border-b-white/10">
@@ -58,10 +54,7 @@ export default function ShowShoppingCartMobile({ closeMobileCart }: ShowShopping
                         </div>
                     </div>
                 </div>
-
             ))}
-
-
             {/* cart footer */}
             <div className="flex items-end gap-x-4 mb-8 mt-auto text-sky-500">
                 <a href="#" className="flex items-center justify-center w-28 h-11 bg-sky-500 tracking-tighter hover:bg-sky-600 rounded-xl text-white text-base" >ثبت سفارش</a>
@@ -73,7 +66,6 @@ export default function ShowShoppingCartMobile({ closeMobileCart }: ShowShopping
                         </span>
                     </div>
                 </div>
-
             </div>
         </>
     )

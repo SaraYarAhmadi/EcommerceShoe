@@ -36,7 +36,7 @@ function App() {
   const [refreshTokenData, setRefreshTokenData] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const getAllProducts = async () => {
-    const res = await fetch(`http://localhost:3000/api/products`);
+    const res = await fetch(`https://sarayarahmadi-fullstack-ecommerceshoe.liara.run/api/products`);
     const data = await res.json();
 
     setLoading(false);
@@ -65,23 +65,27 @@ function App() {
     localStorage.removeItem('user');
   }, []);
 
- 
+
 
   function refreshToken() {
     const user = localStorage.getItem("user");
     const userId = user ? JSON.parse(user)?.userId : '';
     if (userId) {
-      fetch(`http://localhost:3000/api/user/${userId}`)
+      fetch(`https://sarayarahmadi-fullstack-ecommerceshoe.liara.run/api/user/${userId}`)
         .then(res => res.json())
         .then((data) => {
           const { user } = data;
 
           setUserData({
             isLoggedIn: true,
-            userInfos: user,
+            userInfos: {
+              ...user,
+              userName: user?.userName ? user?.userName : 'ورود / عضویت',
+            },
           });
         });
     } else {
+      setUserData(userDataResetValue);
     }
   }
 
@@ -95,13 +99,13 @@ function App() {
     <UserContext.Provider
       value={{ ...userData, login, logout, }}    >
       <ProductContext.Provider value={allProducts}      >
-          <ScrollToTop />
-          {loading ? <Loading /> :
-            <>
-              <Header />
-              {router}
-              <Footer />
-            </>}
+        <ScrollToTop />
+        {loading ? <Loading /> :
+          <>
+            <Header />
+            {router}
+            <Footer />
+          </>}
       </ProductContext.Provider>
     </UserContext.Provider>
   );

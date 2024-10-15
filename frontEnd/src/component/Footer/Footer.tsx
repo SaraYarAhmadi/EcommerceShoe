@@ -3,7 +3,6 @@ import { GiConverseShoe, GiShoebillStork, GiSonicShoes } from "react-icons/gi";
 import { LuMapPin } from "react-icons/lu";
 import { MdOutlinePhone } from "react-icons/md";
 import { TbBrandTelegram } from "react-icons/tb";
-import "./Footer.css"
 
 export default function Footer() {
   return (
@@ -83,10 +82,9 @@ export default function Footer() {
         <div className="flex flex-wrap justify-between items-center gap-4 font-DanaMedium border-t border-white/10 md:text-base text-xs/5 pt-2 mt-2">
           <p>کلیه حقوق مادی و معنوی برای این سایت محفوظ می باشد.
           </p>
-          <p className="ltr-text mr-auto">طراحی و برنامه نویسی : <a href="https://artinmehr.com" title=" طراح سایت  سارا یاراحمدی    " target="_blank"> ✌  سارا یاراحمدی  </a></p>
+          <p className="ltr-text mr-auto">طراحی و برنامه نویسی : <span> ✌  سارا یاراحمدی  </span></p>
         </div>
       </div>
     </footer>
-
   )
 }

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { BsMoon, BsSearch, BsSun } from 'react-icons/bs'
+import { BsMoon, BsSun } from 'react-icons/bs'
 import { GiSonicShoes } from 'react-icons/gi'
 import { HiOutlineShoppingCart, HiOutlineUserCircle } from 'react-icons/hi'
 import UserContext, { UserContextViewModel } from '../../../context/userContext'
@@ -11,13 +11,10 @@ interface NavbarProps {
 }
 
 export default function Navbar({ toggleDarkMode }: NavbarProps) { // todo toggleDarkMode check name
-    const userContext: UserContextViewModel = useContext(UserContext) 
+    const userContext: UserContextViewModel = useContext(UserContext)
     const logoutHandler = () => {
         userContext.logout()
     };
-
-
-
 
     return (
         <div className='flex-layout w-full'>
@@ -81,17 +78,16 @@ export default function Navbar({ toggleDarkMode }: NavbarProps) { // todo toggle
                         <div className='hidden dark:inline-block dark:text-yellow-200'>
                             <BsSun />
                         </div>
-
                     </div>
                     <span className='w-px h-14 bg-gray-400'></span>
                     {/* login */}
                     {
-                        userContext.isLoggedIn ? (<Link to="#" className="relative group hidden xl:flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
+                        userContext.isLoggedIn ? (<div className="relative group hidden xl:flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
                             <span className="tracking-tighter truncate"> {userContext.userInfos.userName}</span>
                             <div className='dropdown-menu -left-5 top-full w-40'>
                                 <a href="#" onClick={logoutHandler}> خروج از سیستم </a>
                             </div>
-                        </Link>) :
+                        </div>) :
                             (<Link to="/login" className="hidden xl:flex items-center justify-center w-[120px] h-14 bg-sky-500 hover:bg-sky-600 rounded-xl text-white text-base">
                                 <span className="tracking-tighter"> ورود /  ثبت‌نام </span>
                             </Link>)
@@ -99,10 +95,6 @@ export default function Navbar({ toggleDarkMode }: NavbarProps) { // todo toggle
                     <div className='relative group text-sky-400 text-3xl xl:hidden'>
                         <HiOutlineUserCircle />
                         <ShowDetailsUser logoutHandler={logoutHandler} />
-{/*                         
-                        <div className='dropdown-menu -left-16 top-10 w-40 '>
-                            <a href="#" onClick={logoutHandler}> خروج از سیستم </a>
-                        </div> */}
                     </div>
                 </div>
             </div>

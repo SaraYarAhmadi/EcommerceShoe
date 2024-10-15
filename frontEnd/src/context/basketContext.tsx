@@ -8,7 +8,6 @@ export interface BasketContextViweModel {
     count: number,
     products: ProductContextViewModel[],
     updateBasketProducts: (newProducts: ProductContextViewModel[]) => void,
-
 }
 
 export const initialProductBasket: BasketContextViweModel = {

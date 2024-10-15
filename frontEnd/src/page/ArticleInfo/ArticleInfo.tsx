@@ -3,12 +3,10 @@ import Breadcrumb from "../../component/Breadcrumb/Breadcrumb";
 export default function ArticleInfo() {
   return (
     <div className="w-[90%] mx-auto grid grid-cols-1 mb-12 md:mb-36 pt-6 lg:pt-24">
-
       <Breadcrumb links={[
         { id: 1, title: "خانه", to: "" },
         { id: 1, title: "مقالات", to: "/Article-info/article" },
       ]} />
-
       <section className="col-span-1 mt-20 mb-10">
         <div className="p-10 md:p-16 dark:border border-gray-700 shadow-light dark:shadow-none bg-white dark:bg-gray-800 rounded-2xl">
           <div className="pb-6 mb-5 border-b border-b-gray-200 dark:border-b-gray-700">

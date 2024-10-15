@@ -34,7 +34,7 @@ export default function Slider() {
       }}
       modules={[Autoplay, EffectFade, Navigation, Pagination]}
       // onAutoplayTimeLeft={onAutoplayTimeLeft}
-      className="mySwiper"
+      className="mySwiper mt-5 md:mt-36"
     >
       <SwiperSlide className='swiper-slide rounded-3xl' >
         <div className='flex items-center justify-center w-full h-full parallax-bg overflow-hidden'>
@@ -54,7 +54,6 @@ export default function Slider() {
             <Link to="/Category-info/category/محصولات پیشنهادی-0" className="flex items-center justify-center w-28 h-11 bg-sky-500 tracking-tighter hover:bg-sky-600 rounded-xl text-white text-base" >ثبت سفارش</Link>
           </div>
         </div>
-
       </SwiperSlide>
       <SwiperSlide className='swiper-slide rounded-3xl' >
         <div className=' w-full h-full parallax-bg '>
@@ -74,7 +73,6 @@ export default function Slider() {
             <Link to="/Category-info/category/محصولات پیشنهادی-0" className="flex items-center justify-center w-28 h-11 bg-sky-500 tracking-tighter hover:bg-sky-600 rounded-xl text-white text-base" >ثبت سفارش</Link>
           </div>
         </div>
-
       </SwiperSlide>
       <SwiperSlide className='swiper-slide rounded-3xl' >
         <div className=' w-full h-full parallax-bg '>
@@ -94,7 +92,6 @@ export default function Slider() {
             <Link to="/Category-info/category/محصولات پیشنهادی-0" className="flex items-center justify-center w-28 h-11 bg-sky-500 tracking-tighter hover:bg-sky-600 rounded-xl text-white text-base" >ثبت سفارش</Link>
           </div>
         </div>
-
       </SwiperSlide>
       <SwiperSlide className='swiper-slide rounded-3xl' >
         <div className=' w-full h-full parallax-bg '>
@@ -114,7 +111,6 @@ export default function Slider() {
             <Link to="/Category-info/category/محصولات پیشنهادی-0" className="flex items-center justify-center w-28 h-11 bg-sky-500 tracking-tighter hover:bg-sky-600 rounded-xl text-white text-base" >ثبت سفارش</Link>
           </div>
         </div>
-
       </SwiperSlide>
     </Swiper>
   )
