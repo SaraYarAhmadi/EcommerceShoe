@@ -1,12 +1,10 @@
-import { HiAdjustmentsHorizontal } from "react-icons/hi2";
 import Aside, { FilterVlueViewModel, Gender, initialFilterValue } from "./Aside/Aside";
-import { BsSortDown } from "react-icons/bs";
 import ProductCard from "../../component/ProductCard/ProductCard";
 import Breadcrumb from "../../component/Breadcrumb/Breadcrumb";
 import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { ProductContext, ProductContextViewModel } from "../../context/productContex";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export interface ProductViewModel {
   _id: string;
@@ -38,9 +36,7 @@ export default function Categories() {
   const [allPoroduct, setAllProduct] = useState<ProductContextViewModel[]>([]);
   const [allFilterFildsValue, setAllFilterFildsValue] = useState<FilterVlueViewModel>(initialFilterValue)
   const { searchValue, shoeSizesFilterList, priceFilterList, gender, categoryFilterList } = allFilterFildsValue
-  // const location = useParams()
   const { categoryName } = useParams()
-
   const [filterByParams, setFilterByParams] = useState<FilterByParams>(initialFilterByParamsValues);
 
   const getfilterByParams = (param) => {
@@ -102,17 +98,15 @@ export default function Categories() {
           {category}</h2>
         <section className="grid items-start grid-rows-1 lg:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-5 mt-7 sm:mt-20">
           <Aside getFiltersValue={getFiltersValue} />
-          <section className="col-span-1 lg:col-span-2 xl:col-span-3 order-1 lg:order-2">
+          <div className="col-span-1 lg:col-span-2 xl:col-span-3 order-1 lg:order-2">
             {/* <!-- Course List --> */}
             <div className="grid grid-rows-2 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-
               {productFilter(allPoroduct).map((product: ProductContextViewModel) => (
-
                 <ProductCard key={product._id} {...product} />
               ))
               }
             </div>
-          </section>
+          </div>
         </section>
       </div>
     </main>

@@ -12,8 +12,8 @@ import Slider from '../../component/Header/Slider/Slider'
 export default function Home() {
   return (
     <main>
-      <section className="banner w-[90%] mx-auto  mt-5 md:mt-40 ">
-        <div className="h-full flex justify-end items-start  ">
+      <section className="banner w-[90%] mx-auto">
+        <div className="h-full flex justify-end items-start">
           <Slider />
         </div>
       </section>

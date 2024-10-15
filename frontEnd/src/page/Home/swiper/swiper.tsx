@@ -9,7 +9,6 @@ export default function CategorySwiper() {
     return (
         <section className=" w-full mt-6 md:mt-10">
             <div className="home-page-category-box">
-
                 <div className="flex-layout mb-4 md:mb-8">
                     <div>
                         <h4 className="section-title">  محصولات پر فروش</h4>
@@ -18,12 +17,11 @@ export default function CategorySwiper() {
                         </span>
                     </div >
                     <div>
-                        <Link to="/Category-info/category/محصولات پیشنهادی-0" className="section-link-category-box">
+                        <Link to="/Category-info/category/محصولات پیشنهادی-0" className="section-link-category-box child-hover:text-sky-400">
                             <span className="hidden md:inline-block">
                                 مشاهده محصولات
                             </span>
                             <span className="inline-block md:hidden"> مشاهده همه</span>
-                            <div className="w-4 h-4 text-base">  <IoIosArrowBack /></div>
                         </Link>
                     </div>
                 </div>

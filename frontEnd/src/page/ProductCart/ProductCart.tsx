@@ -143,7 +143,7 @@ export default function ProductCart() {
                                         </div>
                                     </td>
                                     <td className="px-4 py-4 font-semibold text-gray-900 dark:text-white">
-                                    {(itemBasket.count * itemBasket.price).toLocaleString()}{" "}
+                                        {(itemBasket.count * itemBasket.price).toLocaleString()}{" "}
                                     </td>
                                     <td className="px-4 py-4">
                                         <a href="#" className="font-medium text-red-600 text-2xl dark:text-red-500 hover:underline"
@@ -158,9 +158,9 @@ export default function ProductCart() {
                     <h2 className='py-4'>جمع کل سبد خرید</h2>
                     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <tbody >
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 py-2">
+                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 py-2 text-center">
                                 <th>مجموع</th>
-                                <td data-title="مجموع" className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                <td data-title="مجموع" className="px-6 py-4 font-semibold text-gray-900 dark:text-white text-end">
                                     <strong>
                                         <span className="woocommerce-Price-amount amount">
                                             {totalPrice.toLocaleString()} تومان &nbsp;
@@ -168,9 +168,18 @@ export default function ProductCart() {
                                     </strong>
                                 </td>
                             </tr>
-
-                        
-                        </tbody></table>
+                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 py-2 text-center">
+                                <th>حمل و نقل</th>
+                                <td data-title="مجموع" className="px-6 py-4 font-semibold text-gray-900 dark:text-white text-end">
+                                    <strong>
+                                        <span className="woocommerce-Price-amount amount">
+                                           ارسال رایگان برای سراسر کشور
+                                        </span>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <div className="flex items-center justify-center mt-20 py-2">
                         <a href="#" className="flex items-center justify-center w-[200px] h-14 bg-sky-500 tracking-tighter hover:bg-sky-600  rounded-xl text-white" > ادامه جهت تسویه حساب </a>
                     </div>

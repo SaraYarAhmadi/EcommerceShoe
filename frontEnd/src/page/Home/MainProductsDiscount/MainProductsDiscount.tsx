@@ -10,13 +10,11 @@ interface blogViewModel {
   _id: string
 }
 
-
-
 export default function MainProductsDiscount() {
   const [allBlogs, setAllBlogs] = useState<blogViewModel[]>([])
 
   const getAllBlogs = async () => {
-    const res = await fetch("http://localhost:3000/api/blog/");
+    const res = await fetch("https://sarayarahmadi-fullstack-ecommerceshoe.liara.run/api/blog/");
     const data = await res.json()
     setAllBlogs(data)
   }
@@ -34,12 +32,11 @@ export default function MainProductsDiscount() {
               <h4 className="section-title"> وبلاگ</h4>
             </div>
             <div>
-              <Link to="/Article-info/article" className="section-link-category-box">
+              <Link to="/Article-info/article" className="section-link-category-box child-hover:text-sky-400">
                 <span className="hidden md:inline-block">
                   مشاهده همه
                 </span>
                 <span className="inline-block md:hidden"> مشاهده همه</span>
-                <div className="w-4 h-4 text-base">  <IoIosArrowBack /></div>
               </Link>
             </div>
           </div>
@@ -56,7 +53,6 @@ export default function MainProductsDiscount() {
                 </div>
                 <div className='flex items-center justify-center w-full flex-col sm:flex-row pb-5 text-center '>
                   <Link to="/Article-info/article" className='font-DanaDemiBold md:font-Dana text-sm md:text-xl mt-2.5 sm:mt-5 line-clamp-2 text-sky-700 dark:text-white'> {blog.title}</Link>
-
                   <div className='flex items-center justify-center w-full sm:hidden border-t border-t-gray-100 dark:border-t-white/10 pt-[28px] pb-1.5'>
                     <Link to="/Article-info/article" className='flex items-center gap-x-1 ml-1.5 font-DanaMedium text-xs h-5 rounded-md pr-2.5 bg-orange-200/20 text-orange-300'>مطالعه بیشتر...</Link>
                   </div>

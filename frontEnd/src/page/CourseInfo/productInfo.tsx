@@ -53,9 +53,8 @@ export default function ProductInfo() {
   const { userInfos, isLoggedIn } = userContext;
   const swal = withReactContent(Swal)
 
-
   useEffect(() => {
-    fetch(`http://localhost:3000/api/products/${params.productInfo}`)
+    fetch(`https://sarayarahmadi-fullstack-ecommerceshoe.liara.run/api/products/${params.productInfo}`)
       .then(res => res.json())
       .then(data => setProduct(data))
   }, [])
@@ -83,7 +82,6 @@ export default function ProductInfo() {
       }
 
       localStorage.setItem("cart", JSON.stringify(cart));
-
       swal.fire({
         title: "محصول با موفقیت به سبد خرید اضافه شد",
         icon: "success",
@@ -122,14 +120,12 @@ export default function ProductInfo() {
   return (
     <main className="mb-12 md:mb-36 w-[90%] mx-auto pt-6 lg:pt-24">
       {/* <!-- Breadcrumb --> */}
-
       <Breadcrumb
         links={[
           { id: 1, title: "خانه", to: "/" },
           { id: 2, title: "همه محصولات", to: "/Category-info/category/محصولات پیشنهادی-0" },
           { id: 3, title, to: "/Product-info/:productInfo" }
         ]} />
-
       {/* <!-- product Head --> */}
       <div className="grid grid-cols-1 lg:grid-cols-2 w-full mx-auto sm:gap-5 sm:mt-20 justify-between gap-8 mt-10 rounded-2xl overflow-hidden">
         <div className="flex-layout dark:text-white mx-auto">
@@ -157,7 +153,6 @@ export default function ProductInfo() {
             <div className='hidden  lg:flex items-center justify-start lg:justify-center mt-2.5 mb-10'>
               <p className="mr-[19px] min-w-0 grow text-xs font-semiBold text-secondary whitespace-nowrap text-ellipsis overflow-hidden">موجود در انبار کفش چرم ( ارسال فوری ) </p>
             </div>
-
             <div className="flex flex-col items-center justify-start lg:justify-center p-5">
               <div className="flex w-full items-center justify-start lg:justify-center">
                 <h1 className="font-DanaDemiBold line-clamp-2 text-2xl md:text-3xl font-danaMedium text-zinc-800 dark:text-white mb-2.5"> {title} </h1>
@@ -166,14 +161,13 @@ export default function ProductInfo() {
                 <strong className="font-DanaDemiBold text-base lg:text-xl text-sky-500 mb-2"> {category} </strong>
               </div>
               <div className="mb-10 mt-4 flex w-full flex-col">
-
                 <div className="flex items-center">
                   <p className="text-sm leading-5 dark:text-white text-gray-600">رنگ:</p>
                 </div>
                 <div className="w-max max-w-[100%] border-b border-gray-400 pb-4">
                   <div className="flex items-center gap-2.5 flex-nowrap w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    {color.map((colorItem) => (
-                      <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600 list-none">
+                    {color.map((colorItem, index) => (
+                      <li key={index + 1} className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600 list-none">
                         <div className={`flex items-center ps-3 w-max border px-[10px] h-6.5 rounded-[7px] bg-white border-amber-700`}>
                           <input id="horizontal-list-radio-color-license" type="radio" value={colorItem} name="list-radio-color" className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer" onChange={() => colorSelectionHandler(colorItem)}
                             checked={productColor.includes(colorItem)} />
@@ -183,7 +177,6 @@ export default function ProductInfo() {
                     ))}
                   </div>
                 </div>
-
               </div>
               <div className="mb-6 mt-4 flex w-full flex-col">
                 <div className="mb-5 flex w-full flex-col">
@@ -192,8 +185,8 @@ export default function ProductInfo() {
                   </div>
                   <div className="w-max max-w-[100%] border-b border-gray-400 pb-4">
                     <div className="flex items-center gap-2.5 w-fit flex-nowrap">
-                      {size.map((item) => (
-                        <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600 list-none">
+                      {size.map((item, index) => (
+                        <li key={index + 1} className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600 list-none">
                           <div className={`flex items-center ps-3 w-max border px-[10px] h-6.5 rounded-[7px] bg-white border-secondary-500`}>
                             <input id="horizontal-list-radio-license" type="radio" value="" name="list-radio" className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer" onChange={() => sizeSelectionHandler(item)} checked={poroductSize.includes(item)} />
                             <label htmlFor="horizontal-list-radio-license" className="w-full py-3 ms-2 font-medium text-gray-900 dark:text-gray-300 ml-3 mr-2 select-none whitespace-nowrap text-xs leading-5 font-semiBold">{item}</label>
@@ -238,7 +231,6 @@ export default function ProductInfo() {
               </div>
               <Link to={isLoggedIn ? "/Product-cart/:productCart" : "/login"} className="flex items-center justify-center w-[144px] h-14 bg-sky-500 tracking-tighter hover:bg-sky-600  rounded-xl text-white" onClick={addToCart}>ثبت سفارش</Link>
             </div>
-
           </div>
         </div>
       </div>
@@ -257,11 +249,9 @@ export default function ProductInfo() {
           </div>
         </div>
       </div>
-
       <div className="w-[90]">
         <div className="w-full rounded-2xl flex my-24 bg-white/10 relative is-12 card">
           <ProductSpecifications  {...product} />
-
         </div>
       </div>
       <MainProductsServices />

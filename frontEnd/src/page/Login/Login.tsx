@@ -27,7 +27,7 @@ const Login = memo(() => {
             };
 
             try {
-                const response = await fetch("http://localhost:3000/api/user/login", {
+                const response = await fetch("https://sarayarahmadi-fullstack-ecommerceshoe.liara.run/api/user/login", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -108,7 +108,6 @@ const Login = memo(() => {
                         </div>
                         <form className="rounded-2xl" onSubmit={handleSubmit}>
                             <div className="space-y-2.5 sm:space-y-3.5 w-full">
-
                                 <div className="relative overflow-hidden">
                                     <input
                                         type="text"
@@ -124,7 +123,6 @@ const Login = memo(() => {
                                     </span>
                                 </div>
                                 {showErrorMessage(form, 'name')}
-
                                 <div className="relative overflow-hidden">
                                     <input
                                         type="password"

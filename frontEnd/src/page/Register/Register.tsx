@@ -21,7 +21,7 @@ const Register = memo(() => {
 
     const form = useFormik({
         initialValues: { userName: '', email: '', password: '', phone: '' },
-        onSubmit: (formValues, { setSubmitting, resetForm }) => {
+        onSubmit: async (formValues, { setSubmitting, resetForm }) => {
             const { userName, phone, email, password } = formValues;
             const newUserInfos = {
                 userName,
@@ -29,37 +29,40 @@ const Register = memo(() => {
                 email,
                 password,
             };
-            fetch('http://localhost:3000/api/user/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newUserInfos),
-            })
-                .then((res) => res.json())
-                .then((result) => {
-                    if (result?._id) {
-                        userContext.login(result);
-                        swal.fire({
-                            title: "ثبت نام با موفقیت انجام شد",
-                            icon: "success",
-                            confirmButtonText: "ورود به پنل کاربری",
-                            timer: 3000,
-                            timerProgressBar: true,
-                        }).then((value) => {
-                            navigate("/")
-                        })
-                    } else {
-                        alert(result?.message);
-                        swal.fire({
-                            title: result?.message,
-                            text: "اطلاعات کاربری را به درستی وارد نمایید",
-                            icon: "error",
-                            confirmButtonText: "تلاش دوباره",
-                        })
-                    }
-                });
+            try {
+                const res = await fetch('https://sarayarahmadi-fullstack-ecommerceshoe.liara.run/api/user/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(newUserInfos),
+                })
+                if (!res.ok) {
+                    const errorText = await res.text();
+                    throw new Error(errorText);
+                }
+                const result = await res.json();
+                userContext.login(result);
 
+                swal.fire({
+                    title: "ثبت نام با موفقیت انجام شد",
+                    icon: "success",
+                    confirmButtonText: "ورود به پنل کاربری",
+                    timer: 3000,
+                    timerProgressBar: true,
+                }).then((value) => {
+                    navigate("/")
+                })
+            } catch (error: any) {
+                console.log(error);
+
+                swal.fire({
+                    title: "ثبت نام با موفقیت انجام نشد",
+                    text: "اطلاعات کاربری را به درستی وارد نمایید",
+                    icon: "error",
+                    confirmButtonText: "تلاش دوباره",
+                })
+            }
             setTimeout(() => {
                 setSubmitting(false);
                 setFormSubmitted(true);
@@ -91,10 +94,10 @@ const Register = memo(() => {
                     <div className="user-data">
                         <div className="text-center mb-7">
                             <h2 className="font-morabbaMedium text-zinc-700 dark:text-white text-3xl mb-2 sm:mb-5"> عضویت </h2>
-                            <span className="help-alert font-danaLight text-lg text-slate-500 dark:text-gray-500">
+                            <div className="help-alert font-danaLight text-lg text-slate-500 dark:text-gray-500">
                                 قبلا ثبت نام کرده‌اید؟
                                 <Link to="/login" className="text-sky-400 hover:text-sky-500 transition-colors"> وارد شوید </Link>
-                            </span>
+                            </div>
                         </div>
                         <form className="rounded-2xl" onSubmit={handleSubmit}>
                             <div className="space-y-2.5 sm:space-y-3.5 w-full">
